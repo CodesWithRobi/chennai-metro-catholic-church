@@ -1,0 +1,3629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chennai Metro Catholic Church Finder &amp; Transit Planner</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f8fafc;
+      color: #0f172a;
+    }
+    .hero-overlay {
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.88) 0%, rgba(30, 41, 59, 0.78) 55%, rgba(15, 23, 42, 0.85) 100%);
+    }
+    .line-badge-blue { background-color: #1d4ed8; color: #ffffff; }
+    .line-badge-green { background-color: #15803d; color: #ffffff; }
+    .line-badge-yellow { background-color: #ca8a04; color: #ffffff; }
+    .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased selection:bg-amber-500 selection:text-white">
+
+  <!-- Top Navigation Header -->
+  <header class="sticky top-0 z-30 bg-slate-900/95 backdrop-blur border-b border-slate-800 text-white shadow-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-3">
+      <div class="flex items-center gap-3 min-w-0">
+        <div class="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-400/40 flex items-center justify-center text-amber-300 shrink-0 font-bold text-lg">
+          ✝
+        </div>
+        <div class="truncate">
+          <h1 class="text-base sm:text-lg font-bold tracking-tight text-white truncate">Chennai Metro Catholic Church Guide</h1>
+          <p class="text-xs text-slate-300 hidden sm:block">Blue, Green &amp; New Poonamallee Yellow Line • Latin, Syro-Malabar, Syro-Malankara &amp; Jacobite Syrian</p>
+        </div>
+      </div>
+
+      <!-- View Tabs -->
+      <nav class="flex items-center gap-1 bg-slate-800 p-1 rounded-xl border border-slate-700 shrink-0" aria-label="Main Views">
+        <button id="tab-stations" type="button" class="px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all bg-amber-500 text-slate-950 shadow">
+          By Station (58)
+        </button>
+        <button id="tab-churches" type="button" class="px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all text-slate-300 hover:text-white">
+          All Churches
+        </button>
+        <button id="tab-map" type="button" class="px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all text-slate-300 hover:text-white">
+          Metro Map
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Banner with Start Station Journey Planner -->
+  <section class="relative overflow-hidden border-b border-slate-200 bg-slate-900">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/a/aa/Santhome_Basilica.jpg" alt="Santhome Cathedral Basilica Chennai — Real Wikimedia Commons Photograph" class="absolute inset-0 w-full h-full object-cover opacity-35 max-w-full" />
+    <div class="relative hero-overlay">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+          
+          <!-- Left Pitch & Summary Badges -->
+          <div class="lg:col-span-5 text-white space-y-3">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/20 border border-amber-400/40 text-amber-300 text-xs font-semibold">
+              <span>NEW</span>
+              <span>Includes Corridor 4 Poonamallee–Vadapalani Yellow Line</span>
+            </div>
+            <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight leading-tight">
+              Metro to Catholic Churches in Chennai
+            </h2>
+            <p class="text-sm text-slate-200 leading-relaxed">
+              Select your starting metro station to see <strong class="text-white">metro ride time</strong> (including interchanges at Central, Alandur &amp; Vadapalani) and <strong class="text-white">walking or auto/taxi time</strong> to nearby Catholic churches. Thirumangalam also lists the Jacobite Syrian Orthodox church next to the station (not in communion with Rome).
+            </p>
+            <div class="grid grid-cols-3 gap-2 pt-1">
+              <div class="bg-slate-800/80 border border-slate-700/80 rounded-xl p-2.5 text-center">
+                <div class="text-lg sm:text-xl font-extrabold text-amber-400" id="stat-total-stations">51 <span class="text-xs font-semibold text-slate-400">/ 58</span></div>
+                <div class="text-[11px] text-slate-300">Operational Now (58 Total)</div>
+              </div>
+              <div class="bg-slate-800/80 border border-slate-700/80 rounded-xl p-2.5 text-center">
+                <div class="text-lg sm:text-xl font-extrabold text-emerald-400" id="stat-total-churches">97</div>
+                <div class="text-[11px] text-slate-300">Catholic Churches</div>
+              </div>
+              <div class="bg-slate-800/80 border border-slate-700/80 rounded-xl p-2.5 text-center">
+                <div class="text-lg sm:text-xl font-extrabold text-sky-400">3 Rites</div>
+                <div class="text-[11px] text-slate-300">Latin • Malabar • Malankara</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Interactive Journey Control Card -->
+          <div class="lg:col-span-7 bg-white rounded-2xl shadow-xl border border-slate-200 p-4 sm:p-5 text-slate-900">
+            <div class="flex flex-wrap items-center justify-between gap-2 pb-3 mb-3 border-b border-slate-100">
+              <div>
+                <h3 class="text-sm sm:text-base font-bold text-slate-900 flex items-center gap-2">
+                  <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                  <span>1. Choose Your Starting Metro Station</span>
+                </h3>
+                <p class="text-xs text-slate-500">All travel times and Google Maps links update automatically from your start station</p>
+              </div>
+              <span id="start-station-line-pill" class="px-2.5 py-1 rounded-full text-xs font-bold line-badge-yellow">
+                Yellow Line
+              </span>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-12 gap-3 items-end">
+              <div class="sm:col-span-7">
+                <label for="start-station-select" class="block text-xs font-semibold text-slate-700 mb-1">
+                  Starting Metro Station
+                </label>
+                <select id="start-station-select" class="w-full rounded-xl border border-slate-300 bg-slate-50 px-3 py-2.5 text-sm font-semibold text-slate-900 focus:border-amber-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-amber-500/20">
+                </select>
+              </div>
+
+              <div class="sm:col-span-5">
+                <label for="sort-mode-select" class="block text-xs font-semibold text-slate-700 mb-1">
+                  Sort Stations / Churches By
+                </label>
+                <select id="sort-mode-select" class="w-full rounded-xl border border-slate-300 bg-slate-50 px-3 py-2.5 text-sm font-medium text-slate-900 focus:border-amber-500 focus:bg-white focus:outline-none">
+                  <option value="total_fast">Fastest Total Time (Metro + Last Mile)</option>
+                  <option value="metro_hops">Closest by Metro Ride Time</option>
+                  <option value="walk_dist">Shortest Walk from Station</option>
+                  <option value="line_order">Line &amp; Corridor Sequence</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Quick Start Station Pills -->
+            <div class="mt-3 pt-3 border-t border-slate-100">
+              <div class="text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1.5">Quick Jump Start Station:</div>
+              <div class="flex flex-wrap gap-1.5" id="quick-start-Stations">
+                <button type="button" data-quick-start="yl_poonamallee_bypass" class="quick-start-btn px-2.5 py-1 rounded-lg text-xs font-semibold bg-amber-50 text-amber-900 border border-amber-200 hover:bg-amber-100 transition">Poonamallee Bypass (YL)</button>
+                <button type="button" data-quick-start="yl_porur_junction" class="quick-start-btn px-2.5 py-1 rounded-lg text-xs font-semibold bg-amber-50 text-amber-900 border border-amber-200 hover:bg-amber-100 transition">Porur Junction (YL)</button>
+                <button type="button" data-quick-start="gl_vadapalani" class="quick-start-btn px-2.5 py-1 rounded-lg text-xs font-semibold bg-emerald-50 text-emerald-900 border border-emerald-200 hover:bg-emerald-100 transition">Vadapalani (GL/YL)</button>
+                <button type="button" data-quick-start="bl_central" class="quick-start-btn px-2.5 py-1 rounded-lg text-xs font-semibold bg-blue-50 text-blue-900 border border-blue-200 hover:bg-blue-100 transition">M.G.R. Central (BL/GL)</button>
+                <button type="button" data-quick-start="bl_alandur" class="quick-start-btn px-2.5 py-1 rounded-lg text-xs font-semibold bg-blue-50 text-blue-900 border border-blue-200 hover:bg-blue-100 transition">Alandur (BL/GL)</button>
+                <button type="button" data-quick-start="bl_airport" class="quick-start-btn px-2.5 py-1 rounded-lg text-xs font-semibold bg-blue-50 text-blue-900 border border-blue-200 hover:bg-blue-100 transition">Chennai Airport (BL)</button>
+                <button type="button" data-quick-start="bl_wimco" class="quick-start-btn px-2.5 py-1 rounded-lg text-xs font-semibold bg-blue-50 text-blue-900 border border-blue-200 hover:bg-blue-100 transition">Wimco Nagar (BL)</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Filter & Search Bar -->
+  <section class="bg-white border-b border-slate-200 shadow-sm sticky top-16 z-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+      <div class="flex flex-col md:flex-row gap-3 items-stretch md:items-center justify-between">
+        
+        <!-- Line & Rite Filter Pills -->
+        <div class="flex flex-wrap items-center gap-1.5">
+          <span class="text-xs font-semibold text-slate-500 mr-1">Line:</span>
+          <button type="button" data-line-filter="all" class="line-filter-btn px-2.5 py-1 rounded-lg text-xs font-bold bg-slate-900 text-white">All (58)</button>
+          <button type="button" data-line-filter="Blue" class="line-filter-btn px-2.5 py-1 rounded-lg text-xs font-semibold bg-blue-50 text-blue-800 border border-blue-200 hover:bg-blue-100">Blue Line (26)</button>
+          <button type="button" data-line-filter="Green" class="line-filter-btn px-2.5 py-1 rounded-lg text-xs font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200 hover:bg-emerald-100">Green Line (17)</button>
+          <button type="button" data-line-filter="Yellow" class="line-filter-btn px-2.5 py-1 rounded-lg text-xs font-semibold bg-amber-50 text-amber-900 border border-amber-300 hover:bg-amber-100">Yellow Line (18)</button>
+
+          <span class="text-slate-300 mx-1 hidden sm:inline">|</span>
+
+          <span class="text-xs font-semibold text-slate-500 mr-1">Rite:</span>
+          <select id="rite-filter-select" aria-label="Filter by rite" class="rounded-lg border border-slate-300 bg-slate-50 px-2.5 py-1 text-xs font-semibold text-slate-800 focus:border-amber-500 focus:outline-none">
+            <option value="all">All Rites</option>
+            <option value="Latin Rite">Latin Rite (Roman Catholic)</option>
+            <option value="Syro-Malabar Rite">Syro-Malabar Rite (Eastern Catholic)</option>
+            <option value="Syro-Malankara Rite">Syro-Malankara Rite (Eastern Catholic)</option>
+            <option value="Jacobite Syrian Orthodox">Jacobite Syrian (Oriental Orthodox)</option>
+          </select>
+
+          <select id="walk-filter-select" aria-label="Filter by Walking Distance" class="rounded-lg border border-slate-300 bg-slate-50 px-2.5 py-1 text-xs font-semibold text-slate-800 focus:border-amber-500 focus:outline-none">
+            <option value="all">Any Distance from Metro</option>
+            <option value="walkable">Walking Distance (≤ 1.0 km)</option>
+            <option value="very_close">Right Outside Metro (≤ 600 m)</option>
+          </select>
+
+          <select id="status-filter-select" aria-label="Filter by Station Status" class="rounded-lg border border-slate-300 bg-slate-50 px-2.5 py-1 text-xs font-semibold text-slate-800 focus:border-amber-500 focus:outline-none">
+            <option value="Operational" selected>Operational Now Only (51)</option>
+            <option value="all">All Stations (Operational + Mar 2027) (58)</option>
+            <option value="Opening Mar 2027">Opening Mar 2027 Only (7)</option>
+          </select>
+        </div>
+
+        <!-- Search Input + Reset -->
+        <div class="flex items-center gap-2">
+          <div class="relative flex-1 sm:w-64">
+            <input id="search-input" type="text" placeholder="Search station, church, area, language..." class="w-full rounded-xl border border-slate-300 bg-slate-50 pl-8 pr-3 py-1.5 text-xs sm:text-sm text-slate-900 placeholder-slate-400 focus:border-amber-500 focus:bg-white focus:outline-none" />
+            <span class="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs">🔍</span>
+          </div>
+          <button id="reset-filters-btn" type="button" class="px-2.5 py-1.5 rounded-xl text-xs font-semibold text-slate-600 bg-slate-100 hover:bg-slate-200 transition shrink-0">
+            Reset
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Active Start Station Banner Summary -->
+  <div class="bg-amber-50/80 border-b border-amber-200/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-800">
+      <div class="flex flex-wrap items-center gap-2">
+        <span class="font-bold text-amber-900">Starting From:</span>
+        <span id="active-origin-label" class="font-extrabold text-slate-900 bg-white px-2.5 py-0.5 rounded-md border border-amber-300 shadow-sm">Poonamallee Bypass</span>
+        <span class="text-slate-600" id="active-origin-subtext">Showing Metro ride time + interchange buffer (+5m at Vadapalani / Alandur / Central) + Walk or Auto/Taxi leg.</span>
+      </div>
+      <div class="font-semibold text-slate-700" id="results-count-label">
+        Showing 51 operational stations
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content Container -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+    <!-- VIEW 1: BY STATION -->
+    <div id="view-stations" class="space-y-4">
+      <div id="stations-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+    </div>
+
+    <!-- VIEW 2: ALL CHURCHES DIRECTORY -->
+    <div id="view-churches" class="hidden space-y-4">
+      <div id="churches-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+    </div>
+
+    <!-- VIEW 3: INTERACTIVE METRO NETWORK SCHEMATIC MAP -->
+    <div id="view-map" class="hidden space-y-6">
+      <!-- Interactive 2D SVG Network Map + Station Church Inspector -->
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 sm:p-6 space-y-4">
+        <div class="flex flex-wrap items-center justify-between gap-4 pb-3 border-b border-slate-100">
+          <div>
+            <h3 class="text-lg font-extrabold text-slate-900">Interactive Chennai Metro &amp; Catholic Church Network Map</h3>
+            <p class="text-xs text-slate-500">Click any station dot on the Blue, Green, or Yellow Line to inspect its Catholic churches, mass timings, and route from your start station.</p>
+          </div>
+          <div class="flex flex-wrap gap-3 text-xs font-semibold">
+            <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-blue-600 inline-block"></span>Blue Line (26)</span>
+            <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-emerald-600 inline-block"></span>Green Line (17)</span>
+            <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-amber-500 inline-block"></span>Yellow Line (18)</span>
+            <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-slate-900 border-2 border-amber-400 inline-block"></span>Interchange (3)</span>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+          <!-- Left: 2D Topological Metro Map SVG -->
+          <div class="lg:col-span-8 bg-slate-950 rounded-2xl border border-slate-800 p-3 overflow-x-auto shadow-inner">
+            <div id="svg-metro-map-container" class="min-w-[680px]"></div>
+          </div>
+          <!-- Right: Selected Station Church Inspector -->
+          <div id="map-station-inspector" class="lg:col-span-4 bg-slate-50 rounded-2xl border border-slate-200 p-4 space-y-3"></div>
+        </div>
+      </div>
+
+      <!-- Linear Corridor Cards -->
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 sm:p-6">
+        <div class="flex flex-wrap items-center justify-between gap-4 mb-4 pb-3 border-b border-slate-100">
+          <div>
+            <h3 class="text-base font-bold text-slate-900">Line-by-Line Corridor Strip Explorer</h3>
+            <p class="text-xs text-slate-500">Scroll horizontally along each corridor to compare station-by-station Catholic church access.</p>
+          </div>
+        </div>
+
+        <div id="schematic-lines-container" class="space-y-6"></div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Route & Church Details Modal -->
+  <div id="route-modal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-slate-200">
+      <div class="p-5 sm:p-6 border-b border-slate-100 flex items-start justify-between gap-3 sticky top-0 bg-white z-10">
+        <div>
+          <div class="flex flex-wrap items-center gap-1.5 mb-1" id="modal-badges"></div>
+          <h3 id="modal-church-name" class="text-lg sm:text-xl font-extrabold text-slate-900">Church Name</h3>
+          <p id="modal-church-address" class="text-xs text-slate-500 mt-0.5"></p>
+        </div>
+        <button id="close-modal-btn" type="button" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-600 font-bold text-sm shrink-0">
+          ✕
+        </button>
+      </div>
+
+      <div class="p-5 sm:p-6 space-y-5" id="modal-body-content">
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Expandable Place Photo & Google Maps Lightbox Modal -->
+  <div id="photo-lightbox-modal" class="fixed inset-0 z-50 hidden bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-3 sm:p-5">
+    <div class="bg-white rounded-2xl max-w-4xl w-full max-h-[92vh] overflow-y-auto shadow-2xl border border-slate-200 flex flex-col">
+      <div class="p-4 sm:p-5 border-b border-slate-200 flex items-start justify-between gap-3 sticky top-0 bg-white z-10">
+        <div>
+          <div class="flex flex-wrap items-center gap-1.5 mb-1" id="lightbox-badges"></div>
+          <h3 id="lightbox-church-name" class="text-base sm:text-xl font-extrabold text-slate-900">Church Place View</h3>
+          <p id="lightbox-church-address" class="text-xs text-slate-500 mt-0.5"></p>
+        </div>
+        <button id="close-lightbox-btn" type="button" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-700 font-bold text-sm shrink-0">
+          ✕
+        </button>
+      </div>
+      <div class="p-4 sm:p-5 space-y-4" id="lightbox-body-content"></div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-slate-900 text-slate-400 border-t border-slate-800 mt-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
+      <div>
+        <p class="font-semibold text-slate-200">Chennai Metro Catholic Church Finder</p>
+        <p class="mt-0.5">Covers Blue Line, Green Line &amp; Phase 2 Corridor 4 Yellow Line (Poonamallee Bypass to Vadapalani; Mar 2027 stations noted).</p>
+      </div>
+      <div class="text-right">
+        <p>Catholic churches are listed with their rites and dioceses where noted.</p>
+        <p class="text-slate-300 font-medium">Archdiocese of Madras-Mylapore • Diocese of Chingleput • Eparchy of Hosur • Eparchy of St. Ephrem Khadki</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Real Wikimedia Commons & Archdiocese of Madras-Mylapore photographs of actual Chennai churches
+    const VERIFIED_CHURCH_PHOTOS = {
+      "c_nandanam_2": {
+        url: "https://upload.wikimedia.org/wikipedia/commons/a/aa/Santhome_Basilica.jpg",
+        caption: "Santhome Cathedral Basilica — Actual Exterior Photograph (Wikimedia Commons)"
+      },
+      "c_stm_1": {
+        url: "https://upload.wikimedia.org/wikipedia/commons/8/8c/St.Thomas_Mount_Schrine.jpg",
+        caption: "St. Thomas Mount National Shrine Basilica — Actual Hilltop Shrine Photograph (Wikimedia Commons)"
+      },
+      "c_littlemount_1": {
+        url: "https://upload.wikimedia.org/wikipedia/commons/a/a2/Little_Mount_Chennai.JPG",
+        caption: "Our Lady of Health Church & St. Thomas Cave, Little Mount — Actual Place Photograph (Wikimedia Commons)"
+      },
+      "c_littlemount_3": {
+        url: "https://upload.wikimedia.org/wikipedia/commons/5/53/Annai_Vailankanni_Church%2C_Besant_Nagar.jpg",
+        caption: "Annai Vailankanni Shrine, Besant Nagar — Actual Shrine Photograph (Wikimedia Commons)"
+      },
+      "c_teynampet_2": {
+        url: "https://upload.wikimedia.org/wikipedia/commons/3/36/Luz_Church_Chennai.jpg",
+        caption: "Our Lady of Light (Luz Church, 1516), Mylapore — Actual Heritage Church Photograph (Wikimedia Commons)"
+      },
+      "c_highcourt_1": {
+        url: "https://upload.wikimedia.org/wikipedia/commons/6/6f/St_Marys_Co-Cathedral_Chennai.jpg",
+        caption: "St. Mary's Co-Cathedral, Armenian Street — Actual Facade Photograph (Wikimedia Commons)"
+      },
+      "c_central_3": {
+        url: "https://upload.wikimedia.org/wikipedia/commons/d/d3/Our_Lady_of_Lourdes_Shrine%2C_Perambur.jpg",
+        caption: "Our Lady of Lourdes Shrine, Perambur — Actual Shrine Photograph (Wikimedia Commons)"
+      },
+      "c_egmore_1": {
+        url: "https://upload.wikimedia.org/wikipedia/commons/e/e0/Sacred_Heart_Shrine_Egmore.jpg",
+        caption: "Sacred Heart Archdiocesan Shrine, Egmore — Actual Place Photograph (Wikimedia Commons)"
+      },
+      "c_1000lights_3": {
+        url: "https://upload.wikimedia.org/wikipedia/commons/7/7b/Loyola_College_Chennai_Church.jpg",
+        caption: "Christ the King Church (Loyola College Gothic Chapel) — Actual Photograph (Wikimedia Commons)"
+      }
+    };
+
+    // Each Catholic church is assigned to its nearest metro station. Where noted, some are also reachable from nearby stations.
+    const STATIONS = [
+      // ---------------- BLUE LINE (26 Operational) ----------------
+      {
+        id: "bl_wimco_depot",
+        name: "Wimco Nagar Depot",
+        tamil: "விம்கோ நகர் பணிமனை",
+        lines: ["Blue"],
+        primaryLine: "Blue",
+        code: "B01",
+        status: "Operational",
+        area: "Tiruvottiyur North / Ennore High Rd",
+        churches: [
+          {
+            id: "c_wimco_depot_1",
+            name: "St. Joseph's Catholic Church, Ennore",
+            rite: "Latin Rite",
+            diocese: "Archdiocese of Madras-Mylapore",
+            address: "Kathivakkam High Road, Kattukuppam, Ennore, Chennai 600057",
+            distKm: 4.19,
+            walkMin: 52,
+            autoMin: 11,
+            autoFare: 65,
+            massInfo: "Sun: 6:00 AM, 8:00 AM (Tamil) • Weekdays: 6:15 AM",
+            notes: "Historic 1961 Ennore parish north of Wimco Nagar Depot."
+          },
+          {
+            id: "c_wimco_2",
+            name: "Sacred Heart Catholic Church, Ernavoor",
+            rite: "Latin Rite",
+            diocese: "Archdiocese of Madras-Mylapore",
+            address: "No. 123, Kamaraj Nagar, Ernavoor, Ennore Post, Chennai 600057",
+            distKm: 0.44,
+            walkMin: 6,
+            autoMin: 2,
+            autoFare: 35,
+            massInfo: "Sun: 7:00 AM (Tamil), 5:30 PM",
+            alsoNear: "Wimco Nagar (0.95 km)",
+            notes: "Serves the Ernavoor and Wimco Nagar residential belt."
+          }
+        ]
+      },
+      {
+        id: "bl_wimco",
+        name: "Wimco Nagar",
+        tamil: "விம்கோ நகர்",
+        lines: ["Blue"],
+        primaryLine: "Blue",
+        code: "B02",
+        status: "Operational",
+        area: "Wimco Nagar / Ernavoor",
+        churches: [
+          {
+            id: "c_wimco_3",
+            name: "St. George Syro-Malabar Catholic Church, Ernavoor",
+            rite: "Syro-Malabar Rite",
+            diocese: "Eparchy of Hosur (Syro-Malabar)",
+            address: "Ernavoor, Tiruvottiyur, Chennai 600057",
+            distKm: 1.03,
+            walkMin: 13,
+            autoMin: 4,
+            autoFare: 35,
+            massInfo: "Sun: 8:30 AM (Malayalam Qurbana)",
+            notes: "Eastern Catholic parish serving North Chennai Syro-Malabar faithful."
+          }
+        ]
+      },
+      {
+        id: "bl_tiruvottriyur",
+        name: "Tiruvottriyur",
+        tamil: "திருவொற்றியூர்",
+        lines: ["Blue"],
+        primaryLine: "Blue",
+        code: "B03",
+        status: "Operational",
+        area: "Tiruvottiyur High Road / Ajax",
+        churches: [
+          {
+            id: "c_tiru_1",
+            name: "St. Antony's Catholic Shrine, Ajax, Tiruvottiyur",
+            rite: "Latin Rite",
+            diocese: "Archdiocese of Madras-Mylapore",
+            address: "Thiruvottiyur High Road, Ajax, Tiruvottiyur, Chennai 600019",
+            distKm: 1.01,
+            walkMin: 13,
+            autoMin: 4,
+            autoFare: 35,
+            massInfo: "Sun: 6:30 AM, 8:30 AM (Tamil) • Tue: 6:30 PM Novena Mass",
+            notes: "Devotional shrine right near Tiruvottriyur Metro & Ajax bus terminus."
+          },
+          {
+            id: "c_wimco_1",
+            name: "All Saints Catholic Church, Tiruvottiyur",
+            rite: "Latin Rite",
+            diocese: "Archdiocese of Madras-Mylapore",
+            address: "4th Street, Raja Shanmugam Nagar, Tiruvottiyur, Chennai 600019",
+            distKm: 0.61,
+            walkMin: 8,
+            autoMin: 3,
+            autoFare: 35,
+            alsoNear: "Wimco Nagar (1.15 km)",
+            massInfo: "Sun: 6:30 AM, 8:30 AM (Tamil) • Weekdays: 6:15 AM",
+            notes: "Easy walk from Wimco Nagar Metro along TH Road."
+          }
+        ]
+      },
+      {
+        id: "bl_theradi",
+        name: "Tiruvottriyur Theradi",
+        tamil: "திருவொற்றியூர் தேரடி",
+        lines: ["Blue"],
+        primaryLine: "Blue",
+        code: "B04",
+        status: "Operational",
+        area: "Theradi / Sathangadu / Manali",
+        churches: [
+          {
+            id: "c_theradi_1",
+            name: "Holy Family Catholic Church, Manali New Town",
+            rite: "Latin Rite",
+            diocese: "Archdiocese of Madras-Mylapore",
+            address: "Manali New Town / Sathangadu Link, North Chennai 600103",
+            distKm: 2.4,
+            walkMin: 29,
+            autoMin: 7,
+            autoFare: 50,
+            alsoNear: "Kaladipet (for St. Paul's 0.5 km)",
+            massInfo: "Sun: 6:30 AM, 8:30 AM (Tamil)",
+            notes: "Serves Manali and Sathangadu west of Tiruvottriyur Theradi."
+          }
+        ]
+      },
+      {
+        id: "bl_kaladipet",
+        name: "Kaladipet",
+        tamil: "காலடிப்பேட்டை",
+        lines: ["Blue"],
+        primaryLine: "Blue",
+        code: "B05",
+        status: "Operational",
+        area: "Kaladipet / Thangal, Tiruvottiyur",
+        churches: [
+          {
+            id: "c_kaladipet_1",
+            name: "St. Paul's Catholic Church, Kaladipet",
+            rite: "Latin Rite",
+            diocese: "Archdiocese of Madras-Mylapore",
+            address: "11A, Sathangadu High Rd, Kaladipet, Tiruvottiyur, Chennai 600019",
+            distKm: 0.42,
+            walkMin: 5,
+            autoMin: 2,
+            autoFare: 35,
+            alsoNear: "Tiruvottriyur Theradi (0.6 km)",
+            massInfo: "Sun: 6:15 AM, 8:15 AM, 6:00 PM (Tamil)",
+            notes: "Verified 500m (7-minute walk) from Kaladipet Metro Station."
+          },
+          {
+            id: "c_kaladipet_2",
+            name: "St. Jude Syro-Malabar Catholic Church, Thangal",
+            rite: "Syro-Malabar Rite",
+            diocese: "Eparchy of Hosur (Syro-Malabar)",
+            address: "1050/9, Thiruvottiyur High Rd, Thangal, Thyagarajapuram, Tiruvottiyur, Chennai 600019",
+            distKm: 0.3,
+            walkMin: 4,
+            autoMin: 2,
+            autoFare: 35,
+            alsoNear: "Tiruvottriyur Metro (0.65 km)",
+            massInfo: "Sun: 8:30 AM (Malayalam) • Fri: 7:00 PM Novena & Mass",
+            notes: "Located at Thangal on Thiruvottiyur High Road."
+          }
+        ]
+      },
+      {
+        id: "bl_tollgate",
+        name: "Tollgate",
+        tamil: "சுங்கச்சாவடி",
+        lines: ["Blue"],
+        primaryLine: "Blue",
+        code: "B06",
+        status: "Operational",
+        area: "Tollgate / Lakshmipuram",
+        churches: [
+          {
+            id: "c_newwash_1",
+            name: "Blessed Sacrament Catholic Church, MPT Quarters",
+            rite: "Latin Rite",
+            diocese: "Archdiocese of Madras-Mylapore",
+            address: "16th Street, Port Trust Housing Colony, New Washermanpet, Chennai 600081",
+            distKm: 0.29,
+            walkMin: 4,
+            autoMin: 2,
+            autoFare: 35,
+            alsoNear: "New Washermanpet (0.8 km)",
+            massInfo: "Sun: 6:30 AM, 8:30 AM (Tamil) • Daily: 6:15 AM",
+            notes: "Closest Catholic parish to New Washermanpet & Tollgate."
+          }
+        ]
+      },
+      {
+        id: "bl_new_washermanpet",
+        name: "New Washermanpet",
+        tamil: "புது வண்ணாரப்பேட்டை",
+        lines: ["Blue"],
+        primaryLine: "Blue",
+        code: "B07",
+        status: "Operational",
+        area: "New Washermanpet / MPT Colony / Kasimedu",
+                churches: [
+          {
+            id: "c_newwash_3",
+            name: "Our Lady of Health Shrine, Shastri Nagar, Vyasarpadi",
+            rite: "Latin Rite",
+            diocese: "Archdiocese of Madras-Mylapore",
+            address: "5th Street, Shastri Nagar, Vyasarpadi, Chennai 600039",
+            distKm: 4.41,
+            walkMin: 55,
+            autoMin: 12,
+            autoFare: 70,
+            alsoNear: "Washermanpet (2.9 km)",
+            massInfo: "Timings not confirmed. Check with the parish before you travel.",
+            notes: "Closest Catholic church outside the dataset: 4.4 km inland at Vyasarpadi. Washermanpet is the nearest metro station to it."
+          }
+        ]
+      },
+      {
+        id: "bl_tondiarpet",
+        name: "Tondiarpet",
+        tamil: "தண்டையார்பேட்டை",
+        lines: ["Blue"],
+        primaryLine: "Blue",
+        code: "B08",
+        status: "Operational",
+        area: "Tondiarpet",
+        churches: [
+          {
+            id: "c_tondiarpet_1",
+            name: "St. John the Apostle Catholic Church, Tondiarpet",
+            rite: "Latin Rite",
+            diocese: "Archdiocese of Madras-Mylapore",
+            address: "110/114, Seniamman Koil Street, Corporation Colony, Tondiarpet, Chennai 600081",
+            distKm: 0.59,
+            walkMin: 7,
+            autoMin: 2,
+            autoFare: 35,
+            massInfo: "Sun: 6:15 AM, 8:30 AM, 6:00 PM (Tamil)",
+            notes: "Walkable from Tondiarpet Metro via Seniamman Koil Street."
+          },
+          {
+            id: "c_newwash_2",
+            name: "St. Theresa's Catholic Church, Kasimode",
+            rite: "Latin Rite",
+            diocese: "Archdiocese of Madras-Mylapore",
+            address: "No. 4, St. Xavier's Street, Kasi Garden, Kasimedu, Chennai 600013",
+            distKm: 0.9,
+            walkMin: 11,
+            autoMin: 3,
+            autoFare: 35,
+            massInfo: "Sun: 6:00 AM, 8:00 AM, 5:30 PM (Tamil)",
+            alsoNear: "Sir Theagaraya College (1.31 km)",
+            notes: "Historic coastal parish of the Archdiocese in Kasimedu."
+          }
+        ]
+      },
+      {
+        id: "bl_theagaraya",
+        name: "Sir Theagaraya College",
+        tamil: "தியாகராயா கல்லூரி",
+        lines: ["Blue"],
+        primaryLine: "Blue",
+        code: "B09",
+        status: "Operational",
+        area: "Korukkupet / Old Washermanpet North",
+        churches: [
+          {
+            id: "c_theagaraya_1",
+            name: "St. Joseph's Catholic Church, Korukkupet",
+            rite: "Latin Rite",
+            diocese: "Archdiocese of Madras-Mylapore",
+            address: "58/22, Driver's Colony, Korukkupet, Chennai 600021",
+            distKm: 1.01,
+            walkMin: 13,
+            autoMin: 4,
+            autoFare: 35,
+            alsoNear: "Washermanpet Metro (for St. Roque's 0.55 km)",
+            massInfo: "Sun: 6:30 AM, 8:30 AM (Tamil) • Weekdays: 6:15 AM",
+            notes: "Serves Korukkupet west of Sir Theagaraya College Metro."
+          }
+        ]
+      },
+      {
+        id: "bl_washermanpet",
+        name: "Washermanpet",
+        tamil: "வண்ணாரப்பேட்டை",
+        lines: ["Blue"],
+        primaryLine: "Blue",
+        code: "B10",
+        status: "Operational",
+        area: "Washermanpet / Royapuram",
+        churches: [
+          {
+            id: "c_wash_1",
+            name: "St. Roque's Catholic Church, Old Washermanpet",
+            rite: "Latin Rite",
+            diocese: "Archdiocese of Madras-Mylapore",
+            address: "16/2, Cemetery Rd, Minakshi Ammanpet, Old Washermanpet, Chennai 600021",
+            distKm: 0.58,
+            walkMin: 7,
+            autoMin: 2,
+            autoFare: 35,
+            alsoNear: "Sir Theagaraya College (0.65 km)",
+            massInfo: "Sun: 6:30 AM, 8:30 AM, 6:00 PM (Tamil)",
+            notes: "7-minute walk from Washermanpet Metro station."
+          },
+          {
+            id: "c_wash_2",
+            name: "St. Peter's Catholic Church, Royapuram",
+            rite: "Latin Rite",
+            diocese: "Archdiocese of Madras-Mylapore",
+            address: "18A, West Mada Church Street, Royapuram, Chennai 600013",
+            distKm: 1.51,
+            walkMin: 19,
+            autoMin: 5,
+            autoFare: 35,
+            massInfo: "Sun: 6:00 AM, 7:30 AM, 9:00 AM, 6:00 PM (Tamil & English)",
+            notes: "One of North Chennai's oldest landmark Catholic churches (built 1829)."
+          },
+          {
+            id: "c_wash_3",
+            name: "Mater Dolorosa Catholic Church, Royapuram",
+            rite: "Latin Rite",
+            diocese: "Archdiocese of Madras-Mylapore",
+            address: "24, Arathoon Rd, West Madha Church St, Royapuram, Chennai 600013",
+            distKm: 1.49,
+            walkMin: 19,
+            autoMin: 5,
+            autoFare: 35,
+            massInfo: "Sun: 7:00 AM (Tamil), 8:30 AM (English)",
+            notes: "Historic Royapuram parish adjoining St. Peter's."
+          }
+        ]
+      },
+      {
+        id: "bl_mannadi",
+        name: "Mannadi",
+        tamil: "மண்ணடி",
+        lines: ["Blue"],
+        primaryLine: "Blue",
+        code: "B11",
+        status: "Operational",
+        area: "Mannadi / Broadway, George Town",
+        churches: [
+          {
+            id: "c_mannadi_1",
+            name: "Mary Help of Christians Shrine (St. Francis Xavier's Church)",
+            rite: "Latin Rite",
+            diocese: "Archdiocese of Madras-Mylapore (Salesians)",
+            address: "No. 38, Broadway Rd, Mannadi, George Town, Chennai 600108",
+            distKm: 0.35,
+            walkMin: 5,
+            autoMin: 2,
+            autoFare: 35,
+            massInfo: "Sun: 6:00 AM, 7:30 AM, 6:00 PM (Tamil) • 9:15 AM (English)",
+            notes: "Archdiocesan shrine on Broadway just 350m from Mannadi Metro."
+          },
+          {
+            id: "c_mannadi_2",
+            name: "Church of Our Lady of Assumption, Portuguese Church St",
+            rite: "Latin Rite",
+            diocese: "Archdiocese of Madras-Mylapore",
+            address: "No. 99, Portuguese Church Street, Seven Wells, George Town, Chennai 600001",
+            distKm: 0.52,
+            walkMin: 6,
+            autoMin: 2,
+            autoFare: 35,
+            massInfo: "Sun: 6:30 AM, 8:30 AM (Tamil), 6:00 PM",
+            notes: "Historic 17th-century Portuguese-era parish in George Town."
+          }
+        ]
+      },
+      {
+        id: "bl_high_court",
+        name: "High Court",
+        tamil: "உயர் நீதிமன்றம்",
+        lines: ["Blue"],
+        primaryLine: "Blue",
+        code: "B12",
+        status: "Operational",
+        area: "Parry's Corner / Armenian Street",
+        churches: [
+          {
+            id: "c_highcourt_1",
+            name: "St. Mary's Co-Cathedral & St. Antony's Shrine",
+            rite: "Latin Rite",
+            diocese: "Archdiocese of Madras-Mylapore",
+            address: "110, Armenian Street, Parry's Corner, George Town, Chennai 600001",
+            distKm: 0.4,
+            walkMin: 5,
+            autoMin: 2,
+            autoFare: 35,
+            massInfo: "Sun: 6:15 AM, 7:15 AM (Tamil) • 8:30 AM, 6:00 PM (English) • Famous Tuesday Novena Masses",
+            notes: "Built in 1658 by Capuchin friars; Co-Cathedral of the Archdiocese, 5-min walk from High Court Metro."
+          }
+        ]
+      },
+      {
+        id: "bl_central",
+        name: "M.G.R. Central",
+        tamil: "புரட்சித் தலைவர் டாக்டர் எம்.ஜி.ஆர் சென்ட்ரல்",
+        lines: ["Blue", "Green"],
+        primaryLine: "Blue",
+        code: "B13 / G01",
+        status: "Operational",
+        isInterchange: true,
+        area: "Park Town / Periamet / Vepery / Perambur Link",
+        churches: [
+          {
+            id: "c_central_1",
+            name: "Vyakula Matha Church (Our Lady of Dolours, Park Town)",
+            rite: "Latin Rite",
+            diocese: "Archdiocese of Madras-Mylapore",
+            address: "St. Patrick's Cemetery, Pallavan Salai, Park Town, Beside Central Station, Chennai 600002",
+            distKm: 0.38,
+            walkMin: 5,
+            autoMin: 2,
+            autoFare: 35,
+            massInfo: "Sun: 7:30 AM (Tamil) • Daily Chapel Hours: 6:30 AM – 7:00 PM",
+            notes: "Right beside Chennai Central / Park Town; quick walk from Central Metro exits."
+          },
+          {
+            id: "c_central_2",
+            name: "St. Joseph's Catholic Church, Vepery / Periamet",
+            rite: "Latin Rite",
+            diocese: "Archdiocese of Madras-Mylapore",
+            address: "No. 31, Vepery High Road, Periamet, Park Town, Chennai 600007",
+            distKm: 0.89,
+            walkMin: 11,
+            autoMin: 3,
+            autoFare: 35,
+            massInfo: "Sun: 6:30 AM (Tamil), 8:00 AM (English), 6:00 PM (English)",
+            notes: "Historic Anglo-Indian & Tamil parish on Vepery High Road near Central."
+          }
+        ]
+      },
+      {
+        id: "bl_govt_estate",
+        name: "Government Estate",
+        tamil: "அரசினர் தோட்டம்",
+        lines: ["Blue"],
+        primaryLine: "Blue",
+        code: "B14",
+        status: "Operational",
+        area: "Mount Road / Narasingapuram / Chintadripet",
+        churches: [
+          {
+            id: "c_govtestate_1",
+            name: "St. Antony's Catholic Church, Narasingapuram",
+            rite: "Latin Rite",
+            diocese: "Archdiocese of Madras-Mylapore",
+            address: "No. 3, Ritchie Street, Narasingapuram, Mount Road, Chennai 600002",
+            distKm: 0.22,
+            walkMin: 3,
+            autoMin: 2,
+            autoFare: 35,
+            massInfo: "Sun: 6:30 AM, 8:30 AM, 6:00 PM (Tamil) • Tue Novena Masses",
+            notes: "Located just off Anna Salai (Mount Road) at Ritchie Street, 5 mins walk from Government Estate Metro."
+          },
+          {
+            id: "c_govtestate_2",
+            name: "Queenship of Mary Church (Vinnarasi Matha), Chintadripet",
+            rite: "Latin Rite",
+            diocese: "Archdiocese of Madras-Mylapore",
+            address: "1/8, Padavattamman Koil Street, Chintadripet, Chennai 600002",
+            distKm: 0.99,
+            walkMin: 12,
+            autoMin: 3,
+            autoFare: 35,
+            massInfo: "Sun: 7:00 AM, 6:00 PM (Tamil)",
+            notes: "Archdiocesan parish in the heart of Chintadripet."
+          }
+        ]
+      },
+      {
+        id: "bl_lic",
+        name: "LIC",
+        tamil: "எல்.ஐ.சி",
+        lines: ["Blue"],
+        primaryLine: "Blue",
+        code: "B15",
+        status: "Operational",
+        area: "Anna Salai / Pudupet / Royapettah",
+        churches: [
+          {
+            id: "c_lic_1",
+            name: "St. Antony's Catholic Church, Pudupet",
+            rite: "Latin Rite",
+            diocese: "Archdiocese of Madras-Mylapore",
+            address: "Marshall's Road, Pudupet, Egmore, Chennai 600002",
+            distKm: 0.94,
+            walkMin: 12,
+            autoMin: 3,
+            autoFare: 35,
+            alsoNear: "Egmore Metro (1.1 km)",
+            massInfo: "Sun: 6:30 AM, 8:30 AM (Tamil), 11:00 AM, 6:00 PM • Tue Special Masses",
+            notes: "Established in 1873; walkable from LIC Metro towards Pudupet."
+          },
+          {
+            id: "c_lic_2",
+            name: "Our Lady of the Presentation Church, Royapettah",
+            rite: "Latin Rite",
+            diocese: "Archdiocese of Madras-Mylapore",
+            address: "137, Jani Jhan Khan Road, Bharathi Salai, Royapettah, Chennai 600014",
+            distKm: 1.1,
+            walkMin: 14,
+            autoMin: 4,
+            autoFare: 35,
+            massInfo: "Sun: 6:30 AM, 8:15 AM (Tamil), 9:30 AM (English), 6:00 PM",
+            notes: "Major parish serving Royapettah and LIC / Whites Road."
+          }
+        ]
+      },
+      {
+        id: "bl_thousand_lights",
+        name: "Thousand Lights",
+        tamil: "ஆயிரம் விளக்கு",
+        lines: ["Blue"],
+        primaryLine: "Blue",
+        code: "B16",
+        status: "Operational",
+        area: "Thousand Lights / Nungambakkam / Loyola",
+        churches: [
+          {
+            id: "c_1000lights_1",
+            name: "St. Teresa's Catholic Church, Nungambakkam",
+            rite: "Latin Rite",
+            diocese: "Archdiocese of Madras-Mylapore",
+            address: "No. 4, Nungambakkam High Road, Thousand Lights / Nungambakkam, Chennai 600034",
+            distKm: 1.12,
+            walkMin: 14,
+            autoMin: 4,
+            autoFare: 35,
+            massInfo: "Sun: 6:00 AM, 7:30 AM (Tamil) • 9:00 AM, 12:00 PM, 6:30 PM (English)",
+            notes: "Iconic centrally located parish near Thousand Lights & Gemini Circle."
+          }
+        ]
+      },
+      {
+        id: "bl_ag_dms",
+        name: "AG – DMS",
+        tamil: "ஏ.ஜி.–டி.எம்.எஸ்.",
+        lines: ["Blue"],
+        primaryLine: "Blue",
+        code: "B17",
+        status: "Operational",
+        area: "Teynampet / Gopalapuram / Cathedral Road",
+        churches: [
+          {
+            id: "c_agdms_1",
+            name: "St. Anthony's Shrine, Cathedral Road",
+            rite: "Latin Rite",
+            diocese: "Archdiocese of Madras-Mylapore",
+            address: "No. 33, Cathedral Road, Gopalapuram (Near Stella Maris College), Chennai 600086",
+            distKm: 0.67,
+            walkMin: 8,
+            autoMin: 3,
+            autoFare: 35,
+            massInfo: "Sun: 7:00 AM, 8:30 AM • Daily Adoration & Prayer",
+            notes: "Peaceful Catholic shrine on Cathedral Road near AG-DMS & Stella Maris College."
+          },
+          {
+            id: "c_1000lights_2",
+            name: "Church of St. Joseph the Worker, Susaipuram",
+            rite: "Latin Rite",
+            diocese: "Archdiocese of Madras-Mylapore",
+            address: "33, Mahalingapuram Main Rd / Tank Bund Rd, Susaipuram, Nungambakkam, Chennai 600034",
+            distKm: 1.84,
+            walkMin: 23,
+            autoMin: 6,
+            autoFare: 35,
+            massInfo: "Sun: 6:30 AM, 8:30 AM, 6:00 PM (Tamil)",
+            alsoNear: "Pachaiyappa's College (1.99 km)",
+            notes: "Vibrant parish in Susaipuram/Nungambakkam."
+          }
+        ]
+      },
+      {
+        id: "bl_teynampet",
+        name: "Teynampet",
+        tamil: "தேனாம்பேட்டை",
+        lines: ["Blue"],
+        primaryLine: "Blue",
+        code: "B18",
+        status: "Operational",
+        area: "Teynampet / Abiramapuram / Mylapore",
+        churches: [
+          {
+            id: "c_teynampet_1",
+            name: "Our Lady of Visitation Catholic Church, Abiramapuram",
+            rite: "Latin Rite",
+            diocese: "Archdiocese of Madras-Mylapore",
+            address: "No. 89, St. Mary's Road, Abiramapuram, Chennai 600018",
+            distKm: 1.62,
+            walkMin: 20,
+            autoMin: 5,
+            autoFare: 35,
+            massInfo: "Sun: 6:15 AM, 8:30 AM, 6:00 PM (Tamil) • 7:15 AM (English)",
+            notes: "Closest parish east of Teynampet Metro along Eldams Rd / St. Mary's Rd."
+          },
+          {
+            id: "c_teynampet_2",
+            name: "Church of Our Lady of Light (Luz Church), Mylapore",
+            rite: "Latin Rite",
+            diocese: "Archdiocese of Madras-Mylapore",
+            address: "156, Luz Church Road, Mylapore, Chennai 600004",
+            distKm: 1.73,
+            walkMin: 22,
+            autoMin: 5,
+            autoFare: 35,
+            massInfo: "Sun: 6:00 AM, 7:30 AM (Tamil) • 9:00 AM, 6:00 PM (English)",
+            notes: "Built in 1516; Chennai's oldest European-built church."
+          },
+          {
+            id: "c_nandanam_2",
+            name: "National Shrine of St. Thomas Cathedral Basilica, Santhome",
+            rite: "Latin Rite",
+            diocese: "Archdiocese of Madras-Mylapore",
+            address: "38, Santhome High Road, Mylapore, Chennai 600004",
+            distKm: 3.4,
+            walkMin: 43,
+            autoMin: 10,
+            autoFare: 55,
+            alsoNear: "Thousand Lights (3.45 km)",
+            massInfo: "Sun: 6:00 AM, 8:15 AM, 6:00 PM (Tamil) • 7:15 AM, 9:30 AM, 12:00 PM (English) • 10:30 AM (Malayalam)",
+            notes: "World-famous Neo-Gothic Cathedral Basilica built over the tomb of St. Thomas the Apostle."
+          }
+        ]
+      },
+      {
+        id: "bl_nandanam",
+        name: "Nandanam",
+        tamil: "நந்தனம்",
+        lines: ["Blue"],
+        primaryLine: "Blue",
+        code: "B19",
+        status: "Operational",
+        area: "Nandanam / T. Nagar South / R.A. Puram / Santhome",
+        churches: [
+          {
+            id: "c_nandanam_1",
+            name: "Holy Cross Catholic Church, T. Nagar",
+            rite: "Latin Rite",
+            diocese: "Archdiocese of Madras-Mylapore",
+            address: "90/24, Venkatanarayana Rd, Amudham Colony, T. Nagar, Chennai 600017",
+            distKm: 0.19,
+            walkMin: 2,
+            autoMin: 1,
+            autoFare: 35,
+            alsoNear: "AG – DMS Metro (1.4 km)",
+            massInfo: "Sun: 6:15 AM, 8:30 AM, 6:00 PM (Tamil) • 7:15 AM (English)",
+            notes: "Walkable or quick 4-min auto ride from Nandanam Metro."
+          },
+          {
+            id: "c_nandanam_3",
+            name: "Our Lady of Guidance Catholic Church, R.A. Puram",
+            rite: "Latin Rite",
+            diocese: "Archdiocese of Madras-Mylapore",
+            address: "No. 22, Lazarus Church Road, Raja Annamalaipuram, Chennai 600028",
+            distKm: 3.62,
+            walkMin: 45,
+            autoMin: 10,
+            autoFare: 60,
+            massInfo: "Sun: 6:00 AM, 7:30 AM, 5:30 PM (Tamil) • 9:00 AM (English)",
+            notes: "Historic 16th-century parish on Lazarus Church Road."
+          },
+          {
+            id: "c_littlemount_4",
+            name: "St. Patrick's Catholic Church, Adyar",
+            rite: "Latin Rite",
+            diocese: "Archdiocese of Madras-Mylapore",
+            address: "St. Patrick's Campus, Gandhi Nagar, Adyar, Chennai 600020",
+            distKm: 2.39,
+            walkMin: 30,
+            autoMin: 7,
+            autoFare: 45,
+            massInfo: "Sun: 7:30 AM, 6:00 PM (English)",
+            alsoNear: "Teynampet (2.71 km)",
+            notes: "Historic 1885 Anglo-Indian & English-speaking chapel on the St. Patrick's campus in Adyar."
+          }
+        ]
+      },
+      {
+        id: "bl_saidapet",
+        name: "Saidapet",
+        tamil: "சைதாப்பேட்டை",
+        lines: ["Blue"],
+        primaryLine: "Blue",
+        code: "B20",
+        status: "Operational",
+        area: "Saidapet",
+                churches: [
+          {
+            id: "c_saidapet_2",
+            name: "Our Lady of Perpetual Help Church, Dhandeeswaram",
+            rite: "Latin Rite",
+            diocese: "Archdiocese of Madras-Mylapore",
+            address: "3/13, Dandeeswaram Main Road, Dhandeeswaram, Velachery, Chennai 600042",
+            distKm: 4.61,
+            walkMin: 58,
+            autoMin: 13,
+            autoFare: 70,
+            alsoNear: "St. Thomas Mount (3.0 km)",
+            massInfo: "Timings not confirmed. Check with the parish before you travel.",
+            notes: "Closest Catholic church outside the dataset: 4.6 km south in Dhandeeswaram, Velachery. St. Thomas Mount is the nearest metro station to it."
+          }
+        ]
+      },
+      {
+        id: "bl_little_mount",
+        name: "Little Mount",
+        tamil: "சின்னமலை",
+        lines: ["Blue"],
+        primaryLine: "Blue",
+        code: "B21",
+        status: "Operational",
+        area: "Little Mount (Chinnamalai) / Adyar / Besant Nagar",
+        churches: [
+          {
+            id: "c_littlemount_1",
+            name: "Shrine of Our Lady of Health & St. Thomas the Apostle, Little Mount",
+            rite: "Latin Rite",
+            diocese: "Archdiocese of Madras-Mylapore",
+            address: "No. 66, Lourd Doss Grotto Rd, Little Mount, Saidapet, Chennai 600015",
+            distKm: 0.41,
+            walkMin: 5,
+            autoMin: 2,
+            autoFare: 35,
+            alsoNear: "Saidapet Metro (0.95 km)",
+            massInfo: "Sun: 6:15 AM (English) • 8:00 AM, 11:30 AM, 5:00 PM (Tamil) • Traditional Latin Mass (TLM) in school chapel",
+            notes: "Verified 450m (6-minute walk) from Little Mount Metro; 1551 Portuguese shrine & St. Thomas cave."
+          },
+          {
+            id: "c_littlemount_2",
+            name: "St. Louis Catholic Church, Adyar",
+            rite: "Latin Rite",
+            diocese: "Archdiocese of Madras-Mylapore",
+            address: "10, 3rd Canal Cross Rd, Gandhi Nagar, Adyar, Chennai 600020",
+            distKm: 2.74,
+            walkMin: 34,
+            autoMin: 8,
+            autoFare: 50,
+            massInfo: "Sun: 7:00 AM, 6:30 PM (Tamil) • 8:45 AM, 11:00 AM (English)",
+            notes: "Major parish in Gandhi Nagar, Adyar just across the Sardar Patel Road corridor."
+          },
+          {
+            id: "c_littlemount_3",
+            name: "Annai Vailankanni Shrine (Our Lady of Good Health), Besant Nagar",
+            rite: "Latin Rite",
+            diocese: "Archdiocese of Madras-Mylapore",
+            address: "Elliot's Beach Road, 6th Avenue, Besant Nagar, Chennai 600090",
+            distKm: 5.45,
+            walkMin: 68,
+            autoMin: 15,
+            autoFare: 80,
+            massInfo: "Sun: 5:30 AM, 6:30 AM, 9:15 AM, 11:30 AM, 6:15 PM (Tamil) • 7:45 AM, 10:30 AM, 5:00 PM (English)",
+            notes: "One of Chennai's most famous Catholic pilgrimage shrines by Elliot's Beach; Little Mount is the closest Blue Line Metro hub."
+          },
+          {
+            id: "c_saidapet_1",
+            name: "Our Lady of Good Health Catholic Church, Saidapet",
+            rite: "Latin Rite",
+            diocese: "Archdiocese of Madras-Mylapore",
+            address: "Arokiamadha Street, West Saidapet, Chennai 600015",
+            distKm: 0.29,
+            walkMin: 4,
+            autoMin: 2,
+            autoFare: 35,
+            alsoNear: "Saidapet (1.29 km)",
+            massInfo: "Sun: 6:30 AM, 8:30 AM, 6:00 PM (Tamil) • Sat Novena Mass",
+            notes: "Dedicated parish serving Saidapet within walking distance of Saidapet Metro."
+          }
+        ]
+      },
+      {
+        id: "bl_guindy",
+        name: "Guindy",
+        tamil: "கிண்டி",
+        lines: ["Blue"],
+        primaryLine: "Blue",
+        code: "B22",
+        status: "Operational",
+        area: "Guindy / Labour Colony",
+        churches: [
+          {
+            id: "c_guindy_1",
+            name: "Infant Jesus Shrine, Guindy Labour Colony",
+            rite: "Latin Rite",
+            diocese: "Archdiocese of Madras-Mylapore",
+            address: "2nd Street, Labour Colony, Guindy Industrial Estate, Guindy, Chennai 600032",
+            distKm: 0.67,
+            walkMin: 8,
+            autoMin: 3,
+            autoFare: 35,
+            alsoNear: "Ekkattuthangal Metro (0.9 km)",
+            massInfo: "Sun: 6:30 AM, 8:30 AM, 6:00 PM (Tamil) • Thu: Novena Masses",
+            notes: "Peaceful parish & shrine just 550m from Guindy Metro."
+          }
+        ]
+      },
+      {
+        id: "bl_alandur",
+        name: "Arignar Anna Alandur",
+        tamil: "அறிஞர் அண்ணா ஆலந்தூர்",
+        lines: ["Blue", "Green"],
+        primaryLine: "Blue",
+        code: "B23 / G16",
+        status: "Operational",
+        isInterchange: true,
+        area: "Alandur / Kathipara / Butt Road",
+        churches: [
+          {
+            id: "c_alandur_1",
+            name: "St. Anthony's Catholic Church, Alandur",
+            rite: "Latin Rite",
+            diocese: "Diocese of Chingleput",
+            address: "Railway Station Road (Opp. B2 St. Thomas Mount Police Station), Alandur, Chennai 600016",
+            distKm: 0.49,
+            walkMin: 6,
+            autoMin: 2,
+            autoFare: 35,
+            massInfo: "Sun: 6:30 AM, 7:30 AM (Tamil) • 8:45 AM (English) • Tue Evening Novena & Anointing",
+            notes: "8-minute walk from Alandur Metro station."
+          },
+          {
+            id: "c_alandur_2",
+            name: "St. Patrick's Catholic Church, Butt Road, St. Thomas Mount",
+            rite: "Latin Rite",
+            diocese: "Diocese of Chingleput",
+            address: "5/84-D, St. Patrick's Church Rd, Butt Road, St. Thomas Mount, Chennai 600016",
+            distKm: 0.79,
+            walkMin: 10,
+            autoMin: 3,
+            autoFare: 35,
+            alsoNear: "St. Thomas Mount (1.2 km) & Ekkattuthangal (1.4 km)",
+            massInfo: "Sun: 6:00 AM, 8:30 AM (Tamil) • 7:15 AM, 6:00 PM (English)",
+            notes: "Historic 1837 garrison church near Kathipara Junction with 24-hour Adoration Chapel."
+          },
+          {
+            id: "c_stm_2",
+            name: "St. Thomas Syro-Malabar Catholic Church, St. Thomas Mount",
+            rite: "Syro-Malabar Rite",
+            diocese: "Eparchy of Hosur (Syro-Malabar)",
+            address: "75-6, North Silver Street, Viswanathapuram, Foothills of St. Thomas Mount, Chennai 600016",
+            distKm: 0.96,
+            walkMin: 12,
+            autoMin: 3,
+            autoFare: 35,
+            massInfo: "Sun: 9:00 AM (Malayalam Qurbana) • Mon–Thu: 6:30 AM • Fri–Sat: 6:00 PM",
+            alsoNear: "Ekkattuthangal (1.03 km)",
+            notes: "Located at the foothills of St. Thomas Mount, 10-minute walk from the Metro."
+          }
+        ]
+      },
+      {
+        id: "bl_nanganallur",
+        name: "Nanganallur Road",
+        tamil: "நங்கநல்லூர் சாலை",
+        lines: ["Blue"],
+        primaryLine: "Blue",
+        code: "B24",
+        status: "Operational",
+        area: "OTA / Nanganallur / Adambakkam",
+                churches: [
+          {
+            id: "c_nanganallur_2",
+            name: "St. Jude's Shrine, Vanuvampet",
+            rite: "Latin Rite",
+            diocese: "Diocese of Chingleput",
+            address: "9, Medavakkam Main Road, Vanuvampet, Chennai 600091",
+            distKm: 2.06,
+            walkMin: 26,
+            autoMin: 6,
+            autoFare: 40,
+            alsoNear: "St. Thomas Mount (1.5 km)",
+            massInfo: "Timings not confirmed. Check with the parish before you travel.",
+            notes: "Closest Catholic church outside the dataset: 2.1 km south at Vanuvampet. St. Thomas Mount is the nearest metro station to it."
+          }
+        ]
+      },
+      {
+        id: "bl_meenambakkam",
+        name: "Meenambakkam",
+        tamil: "மீனம்பாக்கம்",
+        lines: ["Blue"],
+        primaryLine: "Blue",
+        code: "B25",
+        status: "Operational",
+        area: "Meenambakkam / Moovarasanpet",
+        churches: [
+          {
+            id: "c_meenambakkam_1",
+            name: "Holy Spirit Catholic Church, Meenambakkam",
+            rite: "Latin Rite",
+            diocese: "Diocese of Chingleput",
+            address: "11/12, Govindasamy Street, Poonthottam, Nanganallur / Meenambakkam, Chennai 600061",
+            distKm: 0.56,
+            walkMin: 7,
+            autoMin: 2,
+            autoFare: 35,
+            alsoNear: "Nanganallur Road Metro (0.9 km)",
+            massInfo: "Sun: 7:00 AM, 6:00 PM (Tamil)",
+            notes: "8-minute walk from Meenambakkam Metro station."
+          },
+          {
+            id: "c_meenambakkam_2",
+            name: "Sleeping St. Joseph Catholic Church, Moovarasanpet",
+            rite: "Latin Rite",
+            diocese: "Diocese of Chingleput",
+            address: "Moovarasanpet Main Rd, Kennedy Valley, Meenambakkam Parish, Chennai 600043",
+            distKm: 2.21,
+            walkMin: 28,
+            autoMin: 7,
+            autoFare: 40,
+            massInfo: "Sun: 7:30 AM, 6:00 PM (Tamil) • Wed Special Devotion",
+            notes: "Unique rock-cut shrine dedicated to Sleeping St. Joseph."
+          }
+        ]
+      },
+      {
+        id: "bl_airport",
+        name: "Chennai International Airport",
+        tamil: "சென்னை விமான நிலையம்",
+        lines: ["Blue"],
+        primaryLine: "Blue",
+        code: "B26",
+        status: "Operational",
+        area: "Tirusulam / Airport / Pallavaram",
+        churches: [
+          {
+            id: "c_airport_1",
+            name: "St. Anthony's Catholic Church, Tirusulam",
+            rite: "Latin Rite",
+            diocese: "Diocese of Chingleput",
+            address: "Tirusulam (Opposite Chennai Airport / Tirusulam Hill), Chennai 600043",
+            distKm: 0.75,
+            walkMin: 9,
+            autoMin: 3,
+            autoFare: 35,
+            massInfo: "Sun: 7:30 AM (Tamil)",
+            notes: "Closest Catholic church across GST Road in Tirusulam."
+          },
+          {
+            id: "c_airport_2",
+            name: "St. Francis Xavier's Catholic Church, Pallavaram",
+            rite: "Latin Rite",
+            diocese: "Diocese of Chingleput",
+            address: "RC Church Road, Pallavaram Cantonment, Chennai 600043",
+            distKm: 2.11,
+            walkMin: 26,
+            autoMin: 6,
+            autoFare: 40,
+            massInfo: "Sun: 6:00 AM, 8:30 AM, 6:00 PM (Tamil) • 7:15 AM (English)",
+            notes: "Centuries-old parish church in Pallavaram Cantonment just south of the Airport."
+          }
+        ]
+      },
+
+      // ---------------- GREEN LINE (15 Non-Interchange + 2 Shared Interchanges = 17) ----------------
+      {
+        id: "gl_egmore",
+        name: "Egmore",
+        tamil: "எழும்பூர்",
+        lines: ["Green"],
+        primaryLine: "Green",
+        code: "G02",
+        status: "Operational",
+        area: "Egmore / Pantheon Road / Choolai",
+        churches: [
+          {
+            id: "c_egmore_1",
+            name: "Sacred Heart Archdiocesan Shrine, Egmore",
+            rite: "Latin Rite",
+            diocese: "Archdiocese of Madras-Mylapore",
+            address: "No. 14/25, Pantheon Road, Egmore, Chennai 600008",
+            distKm: 0.58,
+            walkMin: 7,
+            autoMin: 2,
+            autoFare: 35,
+            massInfo: "Sun: 6:15 AM, 5:00 PM (Tamil) • 8:00 AM (English) • 10:30 AM (Bilingual) • First Friday Masses all day",
+            notes: "Major Archdiocesan shrine on Pantheon Road near Egmore Station."
+          },
+          {
+            id: "c_egmore_2",
+            name: "St. Andrew's Catholic Church, Choolai",
+            rite: "Latin Rite",
+            diocese: "Archdiocese of Madras-Mylapore",
+            address: "123, Kalathiappa Street, Choolai, Chennai 600112",
+            distKm: 1.05,
+            walkMin: 13,
+            autoMin: 4,
+            autoFare: 35,
+            alsoNear: "M.G.R. Central Metro (1.4 km)",
+            massInfo: "Sun: 6:30 AM, 8:30 AM, 6:00 PM (Tamil)",
+            notes: "One of the oldest Catholic parishes in Choolai/Vepery."
+          }
+        ]
+      },
+      {
+        id: "gl_nehru_park",
+        name: "Nehru Park",
+        tamil: "நேரு பூங்கா",
+        lines: ["Green"],
+        primaryLine: "Green",
+        code: "G03",
+        status: "Operational",
+        area: "Chetpet / Spur Tank Rd / Purasaiwakkam",
+        churches: [
+          {
+            id: "c_nehrupark_2",
+            name: "St. Sebastian's Syro-Malabar Catholic Church, Otteri",
+            rite: "Syro-Malabar Rite",
+            diocese: "Eparchy of Hosur (Syro-Malabar)",
+            address: "Otteri, Purasaiwakkam North, Chennai 600012",
+            distKm: 2.29,
+            walkMin: 29,
+            autoMin: 7,
+            autoFare: 40,
+            massInfo: "Sun: 8:00 AM (Malayalam Qurbana)",
+            notes: "Syro-Malabar parish serving Purasaiwakkam & Otteri."
+          }
+        ]
+      },
+      {
+        id: "gl_kilpauk",
+        name: "Kilpauk",
+        tamil: "கீழ்ப்பாக்கம்",
+        lines: ["Green"],
+        primaryLine: "Green",
+        code: "G04",
+        status: "Operational",
+        area: "Kilpauk Medical College / Halls Road",
+        churches: [
+          {
+            id: "c_kilpauk_1",
+            name: "Votive Shrine of the Immaculate Heart of Mary, Kilpauk",
+            rite: "Latin Rite",
+            diocese: "Archdiocese of Madras-Mylapore",
+            address: "No. 63, Halls Road, Kilpauk, Chennai 600010",
+            distKm: 0.87,
+            walkMin: 11,
+            autoMin: 3,
+            autoFare: 35,
+            alsoNear: "Nehru Park (0.9 km) & Pachaiyappa's College (0.95 km)",
+            massInfo: "Sun: 6:00 AM, 8:30 AM, 11:00 AM (Tamil) • 7:00 AM, 5:30 PM (English) • 8th of Month Thanksgiving Day",
+            notes: "Landmark Salesian shrine in Kilpauk with Divine Mercy Adoration Chapel."
+          },
+          {
+            id: "c_kilpauk_2",
+            name: "St. Thomas Syro-Malabar Catholic Forane Church, Ayanavaram",
+            rite: "Syro-Malabar Rite",
+            diocese: "Eparchy of Hosur (Syro-Malabar Headquarters)",
+            address: "16, Ayanavaram Road, Venkatesapuram Colony, Ayanavaram, Chennai 600023",
+            distKm: 1.9,
+            walkMin: 24,
+            autoMin: 6,
+            autoFare: 40,
+            massInfo: "Sun: 6:15 AM, 8:00 AM, 11:00 AM, 7:00 PM (Malayalam)",
+            notes: "Major Syro-Malabar Forane Church and Bishop's Pastoral Centre in Chennai."
+          },
+          {
+            id: "c_central_3",
+            name: "Our Lady of Lourdes Shrine, Perambur",
+            rite: "Latin Rite",
+            diocese: "Archdiocese of Madras-Mylapore (Salesians)",
+            address: "Paper Mills Road, Perambur, Chennai 600011",
+            distKm: 3.5,
+            walkMin: 44,
+            autoMin: 10,
+            autoFare: 55,
+            massInfo: "Sun: 5:30 AM, 6:45 AM, 9:30 AM, 6:00 PM (Tamil) • 8:00 AM, 11:00 AM, 5:00 PM (English)",
+            alsoNear: "Nehru Park (3.52 km)",
+            notes: "Famous 1903 Gothic-style Marian Shrine in North-West Chennai; direct suburban train or 15-min cab from M.G.R. Central."
+          }
+        ]
+      },
+      {
+        id: "gl_pachaiyappas",
+        name: "Pachaiyappa's College",
+        tamil: "பச்சையப்பன் கல்லூரி",
+        lines: ["Green"],
+        primaryLine: "Green",
+        code: "G05",
+        status: "Operational",
+        area: "Chetpet / Kilpauk West / Kellys",
+        churches: [
+          {
+            id: "c_pachaiyappas_1",
+            name: "St. Anthony's Catholic Church, Vazhaipoo Colony, Aminjikarai",
+            rite: "Latin Rite",
+            diocese: "Archdiocese of Madras-Mylapore",
+            address: "Poonamallee High Road / Nelson Manickam Rd Link, Aminjikarai, Chennai 600029",
+            distKm: 0.75,
+            walkMin: 10,
+            autoMin: 3,
+            autoFare: 35,
+            alsoNear: "Shenoy Nagar (for Ascension Church 0.9 km)",
+            massInfo: "Sun: 6:30 AM, 8:30 AM (Tamil) • Tue Novena",
+            notes: "Convenient chapel & parish centre near Pachaiyappa's College Metro."
+          },
+          {
+            id: "c_1000lights_3",
+            name: "Christ the King Church (Loyola College Chapel), Nungambakkam",
+            rite: "Latin Rite",
+            diocese: "Archdiocese of Madras-Mylapore (Jesuits)",
+            address: "Loyola College Campus, Sterling Road, Nungambakkam, Chennai 600034",
+            distKm: 1.59,
+            walkMin: 20,
+            autoMin: 5,
+            autoFare: 35,
+            massInfo: "Sun: 6:30 AM (Tamil) • 7:45 AM, 6:00 PM (English) • Weekdays: 6:30 AM",
+            alsoNear: "Kilpauk (2 km)",
+            notes: "Famous 1930s Gothic Revival Jesuit chapel on the Loyola College campus."
+          }
+        ]
+      },
+      {
+        id: "gl_shenoy_nagar",
+        name: "Shenoy Nagar",
+        tamil: "செனாய் நகர்",
+        lines: ["Green"],
+        primaryLine: "Green",
+        code: "G06",
+        status: "Operational",
+        area: "Shenoy Nagar / Aminjikarai",
+        churches: [
+          {
+            id: "c_shenoy_1",
+            name: "Ascension Catholic Church, Metha Nagar, Aminjikarai",
+            rite: "Latin Rite",
+            diocese: "Archdiocese of Madras-Mylapore (Vincentians)",
+            address: "23, 4th St, Railway Colony, Metha Nagar, Aminjikarai, Chennai 600029",
+            distKm: 1.3,
+            walkMin: 16,
+            autoMin: 4,
+            autoFare: 35,
+            alsoNear: "Pachaiyappa's College (1.1 km) & Arumbakkam (1.4 km)",
+            massInfo: "Sun: 6:00 AM, 8:30 AM, 6:00 PM (Tamil) • 7:15 AM, 11:00 AM (English)",
+            notes: "11-minute walk from Shenoy Nagar Metro."
+          }
+        ]
+      },
+      {
+        id: "gl_anna_nagar_east",
+        name: "Anna Nagar East",
+        tamil: "அண்ணா நகர் கிழக்கு",
+        lines: ["Green"],
+        primaryLine: "Green",
+        code: "G07",
+        status: "Operational",
+        area: "Anna Nagar East / Chinthamani",
+        churches: [
+          {
+            id: "c_annanagareast_1",
+            name: "Divine Mercy Catholic Church, Anna Nagar East",
+            rite: "Latin Rite",
+            diocese: "Archdiocese of Madras-Mylapore (Pauline Fathers)",
+            address: "D-171, 8th Street, D Block, Anna Nagar East, Chennai 600102",
+            distKm: 0.62,
+            walkMin: 8,
+            autoMin: 3,
+            autoFare: 35,
+            alsoNear: "Shenoy Nagar Metro (0.95 km)",
+            massInfo: "Sun: 6:30 AM, 8:00 AM, 6:00 PM (Tamil) • 9:15 AM (English) • 11:00 AM (Malayalam)",
+            notes: "Verified 750m walk from Anna Nagar East Metro; Asia's first Divine Mercy parish."
+          },
+          {
+            id: "c_annanagareast_2",
+            name: "Don Bosco Catholic Church, Ayanavaram",
+            rite: "Latin Rite",
+            diocese: "Archdiocese of Madras-Mylapore (Salesians)",
+            address: "No. 86, PE Koil West Mada Street, Ayanavaram, Chennai 600023",
+            distKm: 1.5,
+            walkMin: 19,
+            autoMin: 5,
+            autoFare: 35,
+            massInfo: "Sun: 6:30 AM, 8:30 AM, 6:00 PM (Tamil)",
+            notes: "Salesian parish east of Anna Nagar East."
+          }
+        ]
+      },
+      {
+        id: "gl_anna_nagar_tower",
+        name: "Anna Nagar Tower",
+        tamil: "அண்ணா நகர் கோபுரம்",
+        lines: ["Green"],
+        primaryLine: "Green",
+        code: "G08",
+        status: "Operational",
+        area: "Anna Nagar Tower / Villivakkam South",
+        churches: [
+          {
+            id: "c_annanagartower_1",
+            name: "Our Lady of Lourdes Catholic Church, ICF / Villivakkam",
+            rite: "Latin Rite",
+            diocese: "Archdiocese of Madras-Mylapore",
+            address: "ICF South Colony / Villivakkam Road, North of Anna Nagar Tower, Chennai 600038",
+            distKm: 1.9,
+            walkMin: 23,
+            autoMin: 6,
+            autoFare: 45,
+            massInfo: "Sun: 6:30 AM, 8:30 AM, 6:00 PM (Tamil)",
+            notes: "Serves ICF Colony and North Anna Nagar."
+          },
+          {
+            id: "c_annanagartower_2",
+            name: "St. Luke's Catholic Church, Anna Nagar West",
+            rite: "Latin Rite",
+            diocese: "Archdiocese of Madras-Mylapore",
+            address: "Z-291, 5th Avenue, Z Block, Anna Nagar West, Chennai 600040",
+            distKm: 0.11,
+            walkMin: 1,
+            autoMin: 1,
+            autoFare: 35,
+            massInfo: "Sun: 6:00 AM, 7:15 AM, 6:30 PM (Tamil) • 8:30 AM, 5:30 PM (English)",
+            notes: "At the station: the church sits on 5th Avenue, Z Block, one minute from Anna Nagar Tower Metro."
+          }
+        ]
+      },
+      {
+        id: "gl_thirumangalam",
+        name: "Thirumangalam",
+        tamil: "திருமங்கலம்",
+        lines: ["Green"],
+        primaryLine: "Green",
+        code: "G09",
+        status: "Operational",
+        area: "Thirumangalam / Anna Nagar West / Padi / Mogappair",
+        churches: [
+          {
+            id: "c_thirumangalam_2",
+            name: "St. Thomas Malankara Syrian Catholic Church, Padi",
+            rite: "Syro-Malankara Rite",
+            diocese: "Eparchy of St. Ephrem Khadki (Syro-Malankara)",
+            address: "Church St, Maria Nagar (Sathya Nagar), Behind Golden Flats, Padi, Chennai 600050",
+            distKm: 2.49,
+            walkMin: 31,
+            autoMin: 7,
+            autoFare: 45,
+            massInfo: "Sun: 7:30 AM (Malayalam Holy Qurbono)",
+            notes: "Main Syro-Malankara Catholic parish in Chennai (in full communion with Rome)."
+          },
+          {
+            id: "c_thirumangalam_3",
+            name: "Holy Cross Syro-Malabar Catholic Forane Church, Mugappair",
+            rite: "Syro-Malabar Rite",
+            diocese: "Eparchy of Hosur (Syro-Malabar)",
+            address: "Perumal Nagar, Mugappair East, Chennai 600037",
+            distKm: 2.28,
+            walkMin: 29,
+            autoMin: 7,
+            autoFare: 40,
+            massInfo: "Sun: 7:00 AM, 8:30 AM (Malayalam Qurbana)",
+            notes: "Forane church for Syro-Malabar Catholics in Anna Nagar, Mugappair & Koyambedu."
+          },
+          {
+            id: "c_thirumangalam_4",
+            name: "St. Thomas Jacobite Syrian Orthodox Church, Anna Nagar West Extension",
+            rite: "Jacobite Syrian Orthodox",
+            diocese: "Malankara Jacobite Syrian Orthodox Church — Mylapore Diocese",
+            address: "No. 1, Syrian Church Road, Collector Nagar, Anna Nagar West Extension, Chennai 600101",
+            distKm: 1.0,
+            walkMin: 13,
+            autoMin: 4,
+            autoFare: 30,
+            massInfo: "Sun: 8:25 AM Holy Qurbana (morning prayer 7:30 AM) • Wed: 6:20 PM Holy Qurbana (evening prayer 6:00 PM)",
+            notes: "Oriental Orthodox, not in communion with Rome. The church also houses the Mylapore Diocesan office of the Malankara Jacobite Syrian Church."
+          }
+        ]
+      },
+      {
+        id: "gl_koyambedu",
+        name: "Koyambedu",
+        tamil: "கோயம்பேடு",
+        lines: ["Green"],
+        primaryLine: "Green",
+        code: "G10",
+        status: "Operational",
+        area: "Koyambedu Market / Nerkundram",
+        churches: [
+          {
+            id: "c_koyambedu_1",
+            name: "Holy Trinity Catholic Church, Golden George Nagar",
+            rite: "Latin Rite",
+            diocese: "Archdiocese of Madras-Mylapore",
+            address: "O.V. Joseph Street, Golden George Nagar, Nerkundram, Chennai 600107",
+            distKm: 1.25,
+            walkMin: 16,
+            autoMin: 4,
+            autoFare: 35,
+            alsoNear: "CMBT Metro (for Infant Jesus 0.75 km)",
+            massInfo: "Sun: 6:30 AM, 8:30 AM (Tamil) • 7:30 AM (English)",
+            notes: "Serves Koyambedu West, Nerkundram, and Golden George Nagar."
+          },
+          {
+            id: "c_karambakkam_1",
+            name: "St. Antony's Catholic Church (Pilar Fathers), Maduravoyal",
+            rite: "Latin Rite",
+            diocese: "Archdiocese of Madras-Mylapore",
+            address: "No. 47, Poonamallee High Road, Maduravoyal, Chennai 600095",
+            distKm: 2.39,
+            walkMin: 30,
+            autoMin: 7,
+            autoFare: 45,
+            alsoNear: "Alwar Thirunagar (2.68 km)",
+            massInfo: "Sun: 6:30 AM, 8:30 AM, 6:00 PM (Tamil) • 7:30 AM (English)",
+            notes: "Pilar Fathers parish just north of Karambakkam & Alapakkam."
+          }
+        ]
+      },
+      {
+        id: "gl_cmbt",
+        name: "Puratchi Thalaivi Dr. J. Jayalalithaa CMBT",
+        tamil: "புரட்சித் தலைவி டாக்டர் ஜெ. ஜெயலலிதா புறநகர் பேருந்து நிலையம்",
+        lines: ["Green"],
+        primaryLine: "Green",
+        code: "G11",
+        status: "Operational",
+        area: "CMBT / Chinmaya Nagar",
+                churches: [
+          {
+            id: "c_cmbt_2",
+            name: "St. John De Britto's Church, Villivakkam",
+            rite: "Latin Rite",
+            diocese: "Archdiocese of Madras-Mylapore",
+            address: "E Mada Street, Seeyalam, Konnur, Villivakkam, Chennai 600049",
+            distKm: 4.55,
+            walkMin: 57,
+            autoMin: 12,
+            autoFare: 70,
+            alsoNear: "Anna Nagar Tower (2.7 km)",
+            massInfo: "Timings not confirmed. Check with the parish before you travel.",
+            notes: "Closest Catholic church outside the dataset: 4.6 km north in Villivakkam. Anna Nagar Tower is the nearest metro station to it."
+          }
+        ]
+      },
+      {
+        id: "gl_arumbakkam",
+        name: "Arumbakkam",
+        tamil: "அரும்பாக்கம்",
+        lines: ["Green"],
+        primaryLine: "Green",
+        code: "G12",
+        status: "Operational",
+        area: "Arumbakkam / MMDA Colony / Choolaimedu",
+        churches: [
+          {
+            id: "c_arumbakkam_1",
+            name: "St. Vincent Pallotti Catholic Church, Choolaimedu / MMDA",
+            rite: "Latin Rite",
+            diocese: "Archdiocese of Madras-Mylapore (Pallottines)",
+            address: "Choolaimedu High Road / MMDA Colony Link, Arumbakkam, Chennai 600094",
+            distKm: 1.15,
+            walkMin: 14,
+            autoMin: 4,
+            autoFare: 35,
+            alsoNear: "CMBT (for Infant Jesus 0.75 km)",
+            massInfo: "Sun: 6:30 AM, 8:15 AM (Tamil) • 9:30 AM (English) • 6:00 PM",
+            notes: "Serves Arumbakkam MMDA Colony and Choolaimedu."
+          }
+        ]
+      },
+      {
+        id: "gl_vadapalani",
+        name: "Vadapalani",
+        tamil: "வடபழனி",
+        lines: ["Green", "Yellow"],
+        primaryLine: "Green",
+        code: "G13 / Y15",
+        status: "Operational",
+        isInterchange: true,
+        area: "Vadapalani / Arcot Road / Kodambakkam",
+                churches: [
+          {
+            id: "c_vadapalani_1",
+            name: "St. Antony's Church, Mogappair West",
+            rite: "Latin Rite",
+            diocese: "Archdiocese of Madras-Mylapore",
+            address: "No.1, 4th Block, Mogappair West, Chennai 600037",
+            distKm: 5.72,
+            walkMin: 72,
+            autoMin: 15,
+            autoFare: 85,
+            alsoNear: "Koyambedu (3.0 km)",
+            massInfo: "Timings not confirmed. Check with the parish before you travel.",
+            notes: "Closest Catholic church outside the dataset: 5.7 km north-west at Mogappair West. Koyambedu is the nearest metro station to it."
+          }
+        ]
+      },
+      {
+        id: "gl_ashok_nagar",
+        name: "Ashok Nagar",
+        tamil: "அசோக் நகர்",
+        lines: ["Green"],
+        primaryLine: "Green",
+        code: "G14",
+        status: "Operational",
+        area: "Ashok Nagar / K.K. Nagar",
+        churches: [
+          {
+            id: "c_ashoknagar_1",
+            name: "St. Mathias Catholic Church, Ashok Nagar",
+            rite: "Latin Rite",
+            diocese: "Archdiocese of Madras-Mylapore (Capuchin Friars)",
+            address: "26/23, Kamarajar Salai, Sector 10, Ashok Nagar, Chennai 600083",
+            distKm: 0.71,
+            walkMin: 9,
+            autoMin: 3,
+            autoFare: 35,
+            massInfo: "Sun: 6:00 AM, 8:30 AM, 5:30 PM (Tamil) • 7:15 AM (English) • Mon–Sat: 6:00 AM & 6:00 PM",
+            notes: "Verified 950m walk from Ashok Nagar Metro along Anna Main Rd & Kamarajar Salai."
+          }
+        ]
+      },
+      {
+        id: "gl_ekkattuthangal",
+        name: "Ekkattuthangal",
+        tamil: "ஈக்காட்டுத்தாங்கல்",
+        lines: ["Green"],
+        primaryLine: "Green",
+        code: "G15",
+        status: "Operational",
+        area: "Ekkattuthangal / Jafferkhanpet",
+        churches: [
+          {
+            id: "c_ekkattuthangal_1",
+            name: "Our Lady of Good Health Church, Jafferkhanpet",
+            rite: "Latin Rite",
+            diocese: "Archdiocese of Madras-Mylapore",
+            address: "Pillaiyar Koil Street, Jafferkhanpet, Ekkattuthangal, Chennai 600083",
+            distKm: 0.8,
+            walkMin: 10,
+            autoMin: 3,
+            autoFare: 35,
+            alsoNear: "Guindy Metro (for Infant Jesus Shrine 0.55 km)",
+            massInfo: "Sun: 6:30 AM, 8:30 AM, 6:00 PM (Tamil)",
+            notes: "10-minute walk from Ekkattuthangal Metro across the Jafferkhanpet bridge."
+          }
+        ]
+      },
+      {
+        id: "gl_st_thomas_mount",
+        name: "St. Thomas Mount",
+        tamil: "பரங்கிமலை",
+        lines: ["Green"],
+        primaryLine: "Green",
+        code: "G17",
+        status: "Operational",
+        area: "St. Thomas Mount (Parangimalai)",
+        churches: [
+          {
+            id: "c_stm_1",
+            name: "St. Thomas Mount National Shrine Basilica",
+            rite: "Latin Rite",
+            diocese: "Diocese of Chingleput",
+            address: "Hilltop Shrine, Parangimalai, St. Thomas Mount, Chennai 600016",
+            distKm: 1.25,
+            walkMin: 16,
+            autoMin: 4,
+            autoFare: 35,
+            massInfo: "Sun: 6:30 AM, 8:00 AM (Tamil) • 9:30 AM (English) • 11:30 AM, 6:00 PM • Daily 12:00 PM Mass",
+            notes: "1523 hilltop National Shrine where St. Thomas the Apostle was martyred in 72 AD (1.1 km walk to hill steps or 4.3 km drive to summit)."
+          },
+          {
+            id: "c_nanganallur_1",
+            name: "St. Mark's Catholic Church, Mohanapuri / Adambakkam",
+            rite: "Latin Rite",
+            diocese: "Archdiocese of Madras-Mylapore",
+            address: "No. 35, Mohanapuri 2nd Street, Brindavan Nagar, Adambakkam / Nanganallur, Chennai 600088",
+            distKm: 1.3,
+            walkMin: 16,
+            autoMin: 4,
+            autoFare: 35,
+            alsoNear: "Nanganallur Road (2.01 km)",
+            massInfo: "Sun: 6:30 AM, 8:30 AM (Tamil) • 5:30 PM (English)",
+            notes: "Serves Nanganallur and Adambakkam east of GST Road."
+          }
+        ]
+      },
+
+      // ---------------- YELLOW LINE (Corridor 4: 11 Operational + 7 Opening Mar 2027) ----------------
+      {
+        id: "yl_poonamallee_bypass",
+        name: "Poonamallee Bypass",
+        tamil: "பூவிருந்தவல்லி புறவழிச்சாலை",
+        lines: ["Yellow"],
+        primaryLine: "Yellow",
+        code: "Y31",
+        status: "Operational",
+        area: "Poonamallee Outer Ring Road / Nazarathpet",
+        churches: [
+          {
+            id: "c_pmbypass_1",
+            name: "St. Joseph's Catholic Church, Palanjur (Pazhanjur)",
+            rite: "Latin Rite",
+            diocese: "Archdiocese of Madras-Mylapore",
+            address: "Pazhanjur, Palanjur, near Pappanchathiram, Chembarambakkam, Chennai 600123",
+            distKm: 5.7,
+            walkMin: 71,
+            autoMin: 15,
+            autoFare: 85,
+            alsoNear: "Pappanchathiram junction, Palanjur",
+            massInfo: "Sun: 7:00 AM, 6:00 PM (Tamil) • Wed Novena",
+            notes: "Archdiocese parish 'St Joseph's Church - Pazhanjur', listed on Google Maps as Saint Joseph's Church, 0.7 km from Pappanchathiram. It sits about 5.7 km west of Poonamallee Bypass Metro, the nearest station, so an auto is the realistic last mile."
+          }
+        ]
+      },
+      {
+        id: "yl_poonamallee_bus_stand",
+        name: "Poonamallee Bus Stand",
+        tamil: "பூவிருந்தவல்லி பேருந்து நிலையம்",
+        lines: ["Yellow"],
+        primaryLine: "Yellow",
+        code: "Y30",
+        status: "Operational",
+        area: "Poonamallee Terminus / Melma Nagar",
+        churches: [
+          {
+            id: "c_pmbus_1",
+            name: "Annai Velankanni Catholic Church, Melma Nagar, Poonamallee",
+            rite: "Latin Rite",
+            diocese: "Archdiocese of Madras-Mylapore",
+            address: "Melma Nagar, Poonamallee PO, Chennai 600056",
+            distKm: 0.34,
+            walkMin: 4,
+            autoMin: 2,
+            autoFare: 35,
+            alsoNear: "Poonamallee Bypass (0.85 km)",
+            massInfo: "Sun: 7:00 AM, 6:00 PM (Tamil) • Sat Novena Mass",
+            notes: "Walkable from Poonamallee Bus Stand Metro."
+          }
+        ]
+      },
+      {
+        id: "yl_poonamallee_gh",
+        name: "Poonamallee Government Hospital",
+        tamil: "பூவிருந்தவல்லி அரசு மருத்துவமனை",
+        lines: ["Yellow"],
+        primaryLine: "Yellow",
+        code: "Y29",
+        status: "Operational",
+        area: "Poonamallee High Road / Hospital",
+                churches: [
+          {
+            id: "c_pmgh_2",
+            name: "Our Lady of Help Church, Chembarambakkam",
+            rite: "Latin Rite",
+            diocese: "Diocese of Chingleput",
+            address: "Chembarambakkam Main Road, Chembarambakkam, Chennai",
+            distKm: 4.99,
+            walkMin: 62,
+            autoMin: 13,
+            autoFare: 75,
+            alsoNear: "Poonamallee Bypass (2.85 km)",
+            massInfo: "Timings not confirmed. Check with the parish before you travel.",
+            notes: "Closest Catholic church outside the dataset: 5.0 km west along the Chembarambakkam road, so an auto is the only practical last mile. Poonamallee Bypass is the nearest metro station to it."
+          }
+        ]
+      },
+      {
+        id: "yl_karayanchavadi",
+        name: "Karayanchavadi",
+        tamil: "கரையான்சாவடி",
+        lines: ["Yellow"],
+        primaryLine: "Yellow",
+        code: "Y28",
+        status: "Operational",
+        area: "Karayanchavadi, Poonamallee",
+        churches: [
+          {
+            id: "c_karayanchavadi_1",
+            name: "St. John the Baptist Catholic Church, Karayanchavadi",
+            rite: "Latin Rite",
+            diocese: "Archdiocese of Madras-Mylapore (Oblates)",
+            address: "Indrani Nagar, Buckingham Road, Karayanchavadi, Poonamallee, Chennai 600056",
+            distKm: 0.36,
+            walkMin: 5,
+            autoMin: 2,
+            autoFare: 35,
+            alsoNear: "Poonamallee GH (0.8 km) & Kumananchavadi (1.1 km)",
+            massInfo: "Sun: 7:00 AM (Tamil) • 10:00 AM (English) • 6:00 PM (Tamil)",
+            notes: "Verified 550m (7-minute walk) from Karayanchavadi Metro via Buckingham Rd."
+          },
+          {
+            id: "c_pmgh_1",
+            name: "Sacred Heart Convent Chapel, Poonamallee Trunk Road",
+            rite: "Latin Rite",
+            diocese: "Archdiocese of Madras-Mylapore",
+            address: "Trunk Road, Near Government Hospital, Poonamallee, Chennai 600056",
+            distKm: 0.17,
+            walkMin: 2,
+            autoMin: 1,
+            autoFare: 35,
+            alsoNear: "Kumananchavadi (0.91 km)",
+            massInfo: "Sun: 6:30 AM (Tamil) • Weekdays: 6:15 AM",
+            notes: "Right along Poonamallee Trunk Road near the Government Hospital Metro."
+          }
+        ]
+      },
+      {
+        id: "yl_kumananchavadi",
+        name: "Kumananchavadi",
+        tamil: "குமணன்சாவடி",
+        lines: ["Yellow"],
+        primaryLine: "Yellow",
+        code: "Y27",
+        status: "Operational",
+        area: "Kumananchavadi / Senneerkuppam / Mangadu",
+        churches: [
+          {
+            id: "c_kumananchavadi_1",
+            name: "Christ the King Syro-Malabar Catholic Church, Senneerkuppam",
+            rite: "Syro-Malabar Rite",
+            diocese: "Eparchy of Hosur (Syro-Malabar)",
+            address: "Jeevan Prakash Nagar, Senneerkuppam, Poonamallee, Chennai 600056",
+            distKm: 0.63,
+            walkMin: 8,
+            autoMin: 3,
+            autoFare: 35,
+            alsoNear: "Karayanchavadi Metro (1.4 km)",
+            massInfo: "Sun: 8:30 AM, 5:00 PM (Malayalam Qurbana)",
+            notes: "Closest Eastern Catholic parish to Kumananchavadi & Karayanchavadi."
+          },
+          {
+            id: "c_kumananchavadi_2",
+            name: "Our Lady of Miracles Catholic Church, Mangadu",
+            rite: "Latin Rite",
+            diocese: "Diocese of Chingleput",
+            address: "Kumananchavadi–Mangadu Road, Mangadu, Chennai 600122",
+            distKm: 2.1,
+            walkMin: 25,
+            autoMin: 6,
+            autoFare: 45,
+            massInfo: "Sun: 6:30 AM, 8:30 AM, 6:00 PM (Tamil)",
+            notes: "Serves Mangadu and Kumananchavadi south of the Poonamallee High Road junction."
+          }
+        ]
+      },
+      {
+        id: "yl_kattupakkam",
+        name: "Kattupakkam",
+        tamil: "காட்டுப்பாக்கம்",
+        lines: ["Yellow"],
+        primaryLine: "Yellow",
+        code: "Y26",
+        status: "Operational",
+        area: "Kattupakkam / Lourdupuram",
+        churches: [
+          {
+            id: "c_kattupakkam_1",
+            name: "Our Lady of Lourdes Chapel (HGN Lourdupuram), Kattupakkam",
+            rite: "Latin Rite",
+            diocese: "Diocese of Chingleput (Heralds of Good News)",
+            address: "Lourdupuram, Mount-Poonamallee Road, Kattupakkam, Chennai 600056",
+            distKm: 0.67,
+            walkMin: 8,
+            autoMin: 3,
+            autoFare: 35,
+            alsoNear: "Iyyapanthangal (for Mother of Mercy 0.75 km)",
+            massInfo: "Sun: 6:30 AM (Tamil/English) • Daily: 6:15 AM",
+            notes: "Just 300m walk from Kattupakkam Metro station."
+          }
+        ]
+      },
+      {
+        id: "yl_iyyapanthangal",
+        name: "Iyyapanthangal",
+        tamil: "அய்யப்பன்தாங்கல்",
+        lines: ["Yellow"],
+        primaryLine: "Yellow",
+        code: "Y25",
+        status: "Operational",
+        area: "Iyyapanthangal Bus Terminus / Ayappakkam",
+        churches: [
+          {
+            id: "c_iyyapanthangal_1",
+            name: "Mother of Mercy Catholic Church, Iyyappanthangal",
+            rite: "Latin Rite",
+            diocese: "Diocese of Chingleput",
+            address: "126, Periya Kolathuvancheri Main Rd, Balaji Nagar, Iyyappanthangal, Chennai 600122",
+            distKm: 0.66,
+            walkMin: 8,
+            autoMin: 3,
+            autoFare: 35,
+            alsoNear: "Kattupakkam (0.9 km) & Thelliyaragaram (0.95 km)",
+            massInfo: "Sun: 7:00 AM, 9:00 AM, 6:00 PM (Tamil) • 2nd Sat Evening Eucharistic Procession",
+            notes: "Verified 750m (10-minute walk) from Iyyapanthangal Metro via Raja Rathinam Nagar Rd."
+          },
+          {
+            id: "c_iyyapanthangal_2",
+            name: "St. George Malankara Syriac Catholic Church, Ayappakkam",
+            rite: "Syro-Malankara Rite",
+            diocese: "Eparchy of St. Ephrem Khadki (Syro-Malankara)",
+            address: "Siva Sakthi Nagar, Ayappakkam, Thiruverkadu, Chennai 600077",
+            distKm: 5.83,
+            walkMin: 73,
+            autoMin: 16,
+            autoFare: 85,
+            massInfo: "Sun: 8:30 AM (Malayalam Holy Qurbono)",
+            notes: "Syro-Malankara parish serving west Chennai suburbs north of Iyyapanthangal."
+          }
+        ]
+      },
+      {
+        id: "yl_thelliyaragaram",
+        name: "Thelliyaragaram",
+        tamil: "தெள்ளியாரகரம் (ஸ்ரீ இராமச்சந்திரா)",
+        lines: ["Yellow"],
+        primaryLine: "Yellow",
+        code: "Y24",
+        status: "Operational",
+        area: "Sri Ramachandra Medical College (SRMC) / Porur West",
+        churches: [
+          {
+            id: "c_thelliyaragaram_1",
+            name: "St. Luke's Hospital Chapel & Catholic Centre, SRMC Porur",
+            rite: "Latin Rite",
+            diocese: "Archdiocese of Madras-Mylapore",
+            address: "Opposite Sri Ramachandra Medical College Gate, Thelliyaragaram, Porur, Chennai 600116",
+            distKm: 0.4,
+            walkMin: 5,
+            autoMin: 2,
+            autoFare: 35,
+            alsoNear: "Iyyapanthangal (Mother of Mercy 0.95 km) & Porur Junction (St. Joseph's 1.4 km)",
+            massInfo: "Sun: 7:30 AM (Tamil) • Daily Prayer & Pastoral Care for Hospital Visitors",
+            notes: "Right outside Thelliyaragaram / SRMC Metro; Mother of Mercy (0.95 km) is also a 12-min walk."
+          }
+        ]
+      },
+      {
+        id: "yl_porur_bypass",
+        name: "Porur Bypass",
+        tamil: "போரூர் புறவழிச்சாலை",
+        lines: ["Yellow"],
+        primaryLine: "Yellow",
+        code: "Y23",
+        status: "Operational",
+        area: "Porur Lake / Bypass / Madhanandapuram",
+        churches: [
+          {
+            id: "c_porurbypass_1",
+            name: "St. Francis Xavier's Catholic Church, Madha Nagar, Porur",
+            rite: "Latin Rite",
+            diocese: "Diocese of Chingleput",
+            address: "3/1067, 15th Street, Madha Nagar, Madhanandapuram, Porur, Chennai 600125",
+            distKm: 2.05,
+            walkMin: 26,
+            autoMin: 6,
+            autoFare: 40,
+            alsoNear: "Porur Junction (for St. Joseph's Porur 0.6 km)",
+            massInfo: "Sun: 6:30 AM, 8:30 AM, 6:00 PM (Tamil)",
+            notes: "Peaceful parish church in Madha Nagar south of Porur Bypass."
+          }
+        ]
+      },
+      {
+        id: "yl_porur_junction",
+        name: "Porur Junction",
+        tamil: "போரூர் சந்திப்பு",
+        lines: ["Yellow"],
+        primaryLine: "Yellow",
+        code: "Y22",
+        status: "Operational",
+        area: "Porur Junction / Arcot Road / Mount-Poonamallee Rd",
+        churches: [
+          {
+            id: "c_porurjunc_1",
+            name: "St. Joseph's Catholic Church, Porur",
+            rite: "Latin Rite",
+            diocese: "Archdiocese of Madras-Mylapore",
+            address: "16A, Palayakkar Street, Ambal Nagar, Porur, Chennai 600116",
+            distKm: 0.43,
+            walkMin: 5,
+            autoMin: 2,
+            autoFare: 35,
+            alsoNear: "Porur Bypass (0.9 km) & Karambakkam (0.85 km)",
+            massInfo: "Sun: 6:00 AM, 7:40 AM, 6:00 PM (Tamil) • 10:15 AM (English) • Renovated Jan 2025",
+            notes: "Verified 600m (8-minute walk) from Porur Junction Metro via Arcot Rd."
+          }
+        ]
+      },
+      {
+        id: "yl_alapakkam",
+        name: "Alapakkam",
+        tamil: "ஆலப்பாக்கம்",
+        lines: ["Yellow"],
+        primaryLine: "Yellow",
+        code: "Y21",
+        status: "Opening Mar 2027",
+        area: "Alapakkam, Arcot Road",
+        churches: [
+          {
+            id: "c_alapakkam_1",
+            name: "Our Lady of Mercy Catholic Church, Alapakkam",
+            rite: "Latin Rite",
+            diocese: "Archdiocese of Madras-Mylapore",
+            address: "2/6, West Gowri Street, Ganapathy Nagar, Alapakkam, Chennai 600116",
+            distKm: 1.42,
+            walkMin: 18,
+            autoMin: 5,
+            autoFare: 35,
+            alsoNear: "Karambakkam Metro (0.65 km)",
+            massInfo: "Sun: 7:00 AM, 6:00 PM (Tamil)",
+            notes: "Located right in Alapakkam, 7-minute walk from Alapakkam Metro."
+          }
+        ]
+      },
+      {
+        id: "yl_karambakkam",
+        name: "Karambakkam",
+        tamil: "கரம்பாக்கம்",
+        lines: ["Yellow"],
+        primaryLine: "Yellow",
+        code: "Y20",
+        status: "Opening Mar 2027",
+        area: "Karambakkam / Maduravoyal South",
+        churches: [,
+          {
+            id: "c_alwarthirunagar_1",
+            name: "Little Flower Syro-Malabar Catholic Church, Nesapakkam",
+            rite: "Syro-Malabar Rite",
+            diocese: "Eparchy of Hosur (Syro-Malabar)",
+            address: "Kannammal Avenue, Nesapakkam / Alwarthirunagar border, Chennai 600087",
+            distKm: 0.82,
+            walkMin: 10,
+            autoMin: 3,
+            autoFare: 35,
+            alsoNear: "Valasaravakkam (0.79 km)",
+            massInfo: "Sun: 8:00 AM (Malayalam Qurbana) • Mon–Sat: 6:30 AM",
+            notes: "Air-conditioned Syro-Malabar parish serving Alwarthirunagar, Valasaravakkam & Nesapakkam."
+          }
+        ]
+      },
+      {
+        id: "yl_valasaravakkam",
+        name: "Valasaravakkam",
+        tamil: "வளசரவாக்கம்",
+        lines: ["Yellow"],
+        primaryLine: "Yellow",
+        code: "Y19",
+        status: "Opening Mar 2027",
+        area: "Valasaravakkam, Arcot Road",
+        churches: [
+          {
+            id: "c_valasaravakkam_1",
+            name: "Annai Velankanni Catholic Church, Valasaravakkam",
+            rite: "Latin Rite",
+            diocese: "Archdiocese of Madras-Mylapore",
+            address: "Plot No. 21, Church Rd, Venkateswara Nagar Main Rd, Yogam Garden, Valasaravakkam, Chennai 600087",
+            distKm: 0.24,
+            walkMin: 3,
+            autoMin: 2,
+            autoFare: 35,
+            alsoNear: "Alwar Thirunagar Metro (0.65 km)",
+            massInfo: "Sun: 6:15 AM, 8:30 AM, 6:00 PM (Tamil) • 7:30 AM (English)",
+            notes: "Verified 500m (7-minute walk) from Valasaravakkam Metro via Venkateswara Nagar Main Rd."
+          },
+          {
+            id: "c_porurjunc_2",
+            name: "Kristu Jyothi Catholic Church, Ramapuram",
+            rite: "Latin Rite",
+            diocese: "Diocese of Chingleput",
+            address: "Mount Poonamallee Road, Ramapuram (Near DLF Cybercity), Chennai 600089",
+            distKm: 2.08,
+            walkMin: 26,
+            autoMin: 6,
+            autoFare: 40,
+            massInfo: "Sun: 7:00 AM, 6:00 PM (Tamil) • 9:00 AM (English)",
+            alsoNear: "Karambakkam (2.11 km)",
+            notes: "Large parish on Mount-Poonamallee Road serving Porur & Ramapuram."
+          }
+        ]
+      },
+      {
+        id: "yl_alwar_thirunagar",
+        name: "Alwar Thirunagar",
+        tamil: "ஆழ்வார் திருநகர்",
+        lines: ["Yellow"],
+        primaryLine: "Yellow",
+        code: "Y18",
+        status: "Opening Mar 2027",
+        area: "Alwarthirunagar / Nesapakkam West",
+                churches: [
+          {
+            id: "c_alwarthirunagar_2",
+            name: "Our Lady of Snows Church, Iyyappanthangal",
+            rite: "Latin Rite",
+            diocese: "Diocese of Chingleput",
+            address: "Madhuram, Annapoorna Nagar Extension, Periya Kolathuvancheri, Iyyappanthangal, Chennai 600116",
+            distKm: 5.6,
+            walkMin: 70,
+            autoMin: 15,
+            autoFare: 80,
+            alsoNear: "Thelliyaragaram (0.99 km)",
+            massInfo: "Timings not confirmed. Check with the parish before you travel.",
+            notes: "Closest Catholic church outside the dataset: 5.6 km west at Iyyappanthangal. Thelliyaragaram is the nearest metro station to it."
+          }
+        ]
+      },
+      {
+        id: "yl_virugambakkam_south",
+        name: "Virugambakkam South",
+        tamil: "விருகம்பாக்கம் தெற்கு",
+        lines: ["Yellow"],
+        primaryLine: "Yellow",
+        code: "Y17",
+        status: "Opening Mar 2027",
+        area: "Virugambakkam / K.K. Nagar West",
+        churches: [
+          {
+            id: "c_virugambakkam_1",
+            name: "St. Anne's Catholic Church, Nesapakkam / West K.K. Nagar",
+            rite: "Latin Rite",
+            diocese: "Archdiocese of Madras-Mylapore",
+            address: "No. 7, Pallavan Salai, Periyar Nagar, West K.K. Nagar, Nesapakkam, Chennai 600078",
+            distKm: 1.46,
+            walkMin: 18,
+            autoMin: 5,
+            autoFare: 35,
+            alsoNear: "Saligramam (1.2 km) & Ashok Nagar (2.1 km)",
+            massInfo: "Sun: 7:00 AM (English) • 8:30 AM, 6:30 PM (Tamil) • Mon–Sat: 6:30 PM",
+            notes: "Closest parish south of Virugambakkam South Metro."
+          },
+          {
+            id: "c_cmbt_1",
+            name: "Infant Jesus Catholic Church, Chinmaya Nagar",
+            rite: "Latin Rite",
+            diocese: "Archdiocese of Madras-Mylapore",
+            address: "8/5A, Vinayagam Street, Chinmaya Nagar, Sai Baba Colony, Chennai 600092",
+            distKm: 1.04,
+            walkMin: 13,
+            autoMin: 4,
+            autoFare: 35,
+            alsoNear: "Alwar Thirunagar (1.31 km)",
+            massInfo: "Sun: 6:15 AM, 8:00 AM, 6:00 PM (Tamil) • 9:15 AM (English) • 1st Thu Car Procession",
+            notes: "Just 750m across from CMBT / Kaliamman Koil Street."
+          }
+        ]
+      },
+      {
+        id: "yl_saligramam",
+        name: "Saligramam",
+        tamil: "சாலிகிராமம்",
+        lines: ["Yellow"],
+        primaryLine: "Yellow",
+        code: "Y16",
+        status: "Opening Mar 2027",
+        area: "Saligramam, Arcot Road",
+        churches: [
+          {
+            id: "c_saligramam_1",
+            name: "St. Antony's Catholic Chapel, Dasarathapuram, Saligramam",
+            rite: "Latin Rite",
+            diocese: "Archdiocese of Madras-Mylapore",
+            address: "Arcot Road, Dasarathapuram, Saligramam, Chennai 600093",
+            distKm: 0.45,
+            walkMin: 6,
+            autoMin: 2,
+            autoFare: 35,
+            alsoNear: "Virugambakkam South (for St. Anne's 1.1 km)",
+            massInfo: "Sun: 7:00 AM (Tamil) • Tue: 6:30 PM Novena",
+            notes: "Located right in Dasarathapuram, Saligramam on Arcot Road."
+          }
+        ]
+      },
+      {
+        id: "yl_kodambakkam_powerhouse",
+        name: "Kodambakkam Powerhouse",
+        tamil: "கோடம்பாக்கம் பவர்ஹவுஸ்",
+        lines: ["Yellow"],
+        primaryLine: "Yellow",
+        code: "Y14",
+        status: "Opening Mar 2027",
+        area: "Kodambakkam / Trustpuram / Arcot Road",
+        churches: [
+          {
+            id: "c_kph_1",
+            name: "Our Lady of Fatima Catholic Church, Kodambakkam",
+            rite: "Latin Rite",
+            diocese: "Archdiocese of Madras-Mylapore",
+            address: "10, 4th Cross St, Shakthi Nagar / United India Colony, Kodambakkam, Chennai 600024",
+            distKm: 0.93,
+            walkMin: 12,
+            autoMin: 3,
+            autoFare: 35,
+            alsoNear: "Vadapalani Operational Metro (1.1 km)",
+            massInfo: "Sun: 6:00 AM, 7:30 AM, 11:00 AM, 6:30 PM (Tamil) • 9:15 AM, 5:00 PM (English)",
+            notes: "Verified 900m walk from Kodambakkam Powerhouse (or 1.1 km from operational Vadapalani Metro)."
+          },
+          {
+            id: "c_kph_2",
+            name: "St. Alphonsa Syro-Malabar Catholic Church, Kodambakkam",
+            rite: "Syro-Malabar Rite",
+            diocese: "Eparchy of Hosur (Syro-Malabar)",
+            address: "53, Puliyur 2nd Main Rd, Ganga Nagar, Trustpuram, Kodambakkam, Chennai 600024",
+            distKm: 0.76,
+            walkMin: 10,
+            autoMin: 3,
+            autoFare: 35,
+            alsoNear: "Vadapalani Operational Metro (1.3 km)",
+            massInfo: "Sun: 7:00 AM, 9:30 AM (Malayalam Qurbana) • Daily: 7:00 PM (Wed 6:30 AM)",
+            notes: "Just 750m walk into Trustpuram from Kodambakkam Powerhouse (or 1.3 km from Vadapalani Metro)."
+          },
+          {
+            id: "c_kph_3",
+            name: "St. Anthony's Church, Varadharajapettai",
+            rite: "Latin Rite",
+            diocese: "Archdiocese of Madras-Mylapore (to confirm)",
+            address: "17/29, Arokyasamy Street, Minor Trustpuram, Choolaimedu, Chennai 600094",
+            distKm: 1.26,
+            walkMin: 16,
+            autoMin: 4,
+            autoFare: 35,
+            alsoNear: "Vadapalani Operational Metro (1.8 km)",
+            massInfo: "Timings not confirmed. Check with the parish before you travel.",
+            notes: "Place and address come from Google Maps. The diocese and the mass timings still need a source, so treat both as unconfirmed."
+          }
+        ]
+      }
+    ];
+
+    const LINE_SEQUENCES = {
+      Blue: [
+        "bl_wimco_depot", "bl_wimco", "bl_tiruvottriyur", "bl_theradi", "bl_kaladipet",
+        "bl_tollgate", "bl_new_washermanpet", "bl_tondiarpet", "bl_theagaraya", "bl_washermanpet",
+        "bl_mannadi", "bl_high_court", "bl_central", "bl_govt_estate", "bl_lic",
+        "bl_thousand_lights", "bl_ag_dms", "bl_teynampet", "bl_nandanam", "bl_saidapet",
+        "bl_little_mount", "bl_guindy", "bl_alandur", "bl_nanganallur", "bl_meenambakkam", "bl_airport"
+      ],
+      Green: [
+        "bl_central", "gl_egmore", "gl_nehru_park", "gl_kilpauk", "gl_pachaiyappas",
+        "gl_shenoy_nagar", "gl_anna_nagar_east", "gl_anna_nagar_tower", "gl_thirumangalam",
+        "gl_koyambedu", "gl_cmbt", "gl_arumbakkam", "gl_vadapalani", "gl_ashok_nagar",
+        "gl_ekkattuthangal", "bl_alandur", "gl_st_thomas_mount"
+      ],
+      Yellow: [
+        "yl_poonamallee_bypass", "yl_poonamallee_bus_stand", "yl_poonamallee_gh",
+        "yl_karayanchavadi", "yl_kumananchavadi", "yl_kattupakkam", "yl_iyyapanthangal",
+        "yl_thelliyaragaram", "yl_porur_bypass", "yl_porur_junction",
+        "yl_alapakkam", "yl_karambakkam", "yl_valasaravakkam", "yl_alwar_thirunagar",
+        "yl_virugambakkam_south", "yl_saligramam", "gl_vadapalani", "yl_kodambakkam_powerhouse"
+      ]
+    };
+
+    const STATION_MAP = {};
+    STATIONS.forEach(s => { STATION_MAP[s.id] = s; });
+
+    function computeMetroRoute(fromId, toId) {
+      if (fromId === toId) {
+        return {
+          stops: 0,
+          rideMin: 0,
+          transferMin: 0,
+          totalMetroMin: 0,
+          fare: 10,
+          interchanges: [],
+          linesUsed: [STATION_MAP[fromId].primaryLine],
+          summary: "Same station (0 Metro hops — head straight to church)"
+        };
+      }
+
+      const dist = {};
+      const prev = {};
+      const pq = [];
+
+      const startStation = STATION_MAP[fromId];
+      startStation.lines.forEach(line => {
+        const key = `${fromId}|${line}`;
+        dist[key] = 0;
+        pq.push({ key, cost: 0, id: fromId, line });
+      });
+
+      while (pq.length > 0) {
+        pq.sort((a, b) => a.cost - b.cost);
+        const curr = pq.shift();
+        if (curr.cost > (dist[curr.key] ?? Infinity)) continue;
+
+        const seq = LINE_SEQUENCES[curr.line];
+        const idx = seq.indexOf(curr.id);
+        const neighbors = [];
+        if (idx > 0) neighbors.push(seq[idx - 1]);
+        if (idx < seq.length - 1) neighbors.push(seq[idx + 1]);
+
+        neighbors.forEach(nextId => {
+          const nextKey = `${nextId}|${curr.line}`;
+          const newCost = curr.cost + 2.2;
+          if (newCost < (dist[nextKey] ?? Infinity)) {
+            dist[nextKey] = newCost;
+            prev[nextKey] = { prevKey: curr.key, type: "hop", stationId: curr.id, line: curr.line };
+            pq.push({ key: nextKey, cost: newCost, id: nextId, line: curr.line });
+          }
+        });
+
+        const st = STATION_MAP[curr.id];
+        if (st.lines.length > 1) {
+          st.lines.forEach(otherLine => {
+            if (otherLine !== curr.line) {
+              const nextKey = `${curr.id}|${otherLine}`;
+              const newCost = curr.cost + 5.0;
+              if (newCost < (dist[nextKey] ?? Infinity)) {
+                dist[nextKey] = newCost;
+                prev[nextKey] = { prevKey: curr.key, type: "transfer", stationId: curr.id, fromLine: curr.line, toLine: otherLine };
+                pq.push({ key: nextKey, cost: newCost, id: curr.id, line: otherLine });
+              }
+            }
+          });
+        }
+      }
+
+      const targetStation = STATION_MAP[toId];
+      let bestKey = null;
+      let bestCost = Infinity;
+      targetStation.lines.forEach(line => {
+        const k = `${toId}|${line}`;
+        if ((dist[k] ?? Infinity) < bestCost) {
+          bestCost = dist[k];
+          bestKey = k;
+        }
+      });
+
+      let stops = 0;
+      let transfers = 0;
+      const interchanges = [];
+      const linesUsed = [];
+      let traceKey = bestKey;
+
+      while (traceKey && prev[traceKey]) {
+        const step = prev[traceKey];
+        if (step.type === "hop") {
+          stops += 1;
+          if (!linesUsed.includes(step.line)) linesUsed.unshift(step.line);
+        } else if (step.type === "transfer") {
+          transfers += 1;
+          interchanges.unshift({
+            stationName: STATION_MAP[step.stationId].name,
+            fromLine: step.fromLine,
+            toLine: step.toLine
+          });
+          if (!linesUsed.includes(step.toLine)) linesUsed.unshift(step.toLine);
+          if (!linesUsed.includes(step.fromLine)) linesUsed.unshift(step.fromLine);
+        }
+        traceKey = step.prevKey;
+      }
+
+      const rideMin = Math.max(2, Math.round(stops * 2.2));
+      const transferMin = transfers * 5;
+      const totalMetroMin = rideMin + transferMin;
+      let fare = 10;
+      if (stops > 2) fare = 20;
+      if (stops > 5) fare = 30;
+      if (stops > 10) fare = 40;
+      if (stops > 15) fare = 50;
+
+      const summary = interchanges.length > 0
+        ? `${stops} stops (${rideMin}m ride + ${transferMin}m change at ${interchanges.map(i => i.stationName).join(", ")})`
+        : `${stops} stop${stops === 1 ? "" : "s"} direct on ${linesUsed[0] || targetStation.primaryLine} Line`;
+
+      return {
+        stops,
+        rideMin,
+        transferMin,
+        totalMetroMin,
+        fare,
+        interchanges,
+        linesUsed,
+        summary
+      };
+    }
+
+    const state = {
+      activeTab: "stations",
+      startStationId: "yl_poonamallee_bypass",
+      mapInspectedStationId: "gl_vadapalani",
+      sortMode: "total_fast",
+      lineFilter: "all",
+      riteFilter: "all",
+      walkFilter: "all",
+      statusFilter: "Operational",
+      searchQuery: ""
+    };
+
+    function getLineBadgeClass(line) {
+      if (line === "Blue") return "line-badge-blue";
+      if (line === "Green") return "line-badge-green";
+      return "line-badge-yellow";
+    }
+
+    function getRiteBadgeClass(rite) {
+      if (rite === "Syro-Malabar Rite") return "bg-purple-100 text-purple-900 border-purple-300";
+      if (rite === "Syro-Malankara Rite") return "bg-rose-100 text-rose-900 border-rose-300";
+      if (rite === "Jacobite Syrian Orthodox") return "bg-amber-100 text-amber-900 border-amber-300";
+      return "bg-sky-100 text-sky-900 border-sky-300";
+    }
+
+    function getCommunionNote(rite) {
+      return rite === "Jacobite Syrian Orthodox" ? "Oriental Orthodox — not in communion with Rome" : "In full communion with Rome";
+    }
+
+
+    function buildGoogleMapsPlacePhotosUrl(church) {
+      const q = encodeURIComponent(`${church.name}, ${church.address}`);
+      return `https://www.google.com/maps/search/?api=1&query=${q}`;
+    }
+
+    // Church photos are downloaded once by scripts/fetch_church_images.mjs and
+    // served from the site itself, so there is no live map embed anywhere.
+    const CHURCH_PHOTO_DIR = "assets/churches";
+
+    function churchPhotoAsset(church) {
+      return `${CHURCH_PHOTO_DIR}/${church.id}.jpg`;
+    }
+
+    // Google Maps place photo first, curated Wikimedia photo as the fallback.
+    function churchPhotoFallback(church) {
+      return VERIFIED_CHURCH_PHOTOS[church.id]?.url || "";
+    }
+
+    function churchPhotoCaption(church) {
+      const verified = VERIFIED_CHURCH_PHOTOS[church.id];
+      return verified ? verified.caption : "Photo from Google Maps";
+    }
+
+    function renderChurchThumbnail(stationId, church) {
+      const fallback = churchPhotoFallback(church);
+      return `
+        <div data-open-lightbox="${stationId}|${church.id}"
+             title="Click to expand the church photo"
+             class="open-lightbox-btn relative w-24 sm:w-28 h-24 rounded-xl overflow-hidden border-2 border-slate-200 hover:border-amber-500 cursor-pointer shrink-0 group bg-slate-800 shadow-sm">
+          <img src="${churchPhotoAsset(church)}" alt="${church.name}" loading="lazy"
+               ${fallback ? `data-fallback="${fallback}"` : ""} data-church-photo
+               class="w-full h-full object-cover group-hover:scale-105 transition duration-300" />
+          <div data-photo-placeholder class="hidden absolute inset-0 flex flex-col items-center justify-center text-center px-1">
+            <span class="text-lg leading-none">🏛️</span>
+            <span class="text-[8px] font-bold uppercase tracking-wide text-slate-400 mt-1">Photo<br/>pending</span>
+          </div>
+          <div class="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-transparent to-transparent"></div>
+          <span data-photo-badge class="hidden absolute top-1 left-1 px-1.5 py-0.5 rounded bg-emerald-600/90 text-white text-[9px] font-bold">
+            📷 Church Photo
+          </span>
+          <span class="absolute bottom-1 right-1 px-1.5 py-0.5 rounded bg-slate-900/90 text-amber-300 text-[9px] font-bold flex items-center gap-0.5">
+            🔍 Expand
+          </span>
+        </div>
+      `;
+    }
+
+    function openPhotoLightbox(stationId, churchId) {
+      const station = STATION_MAP[stationId];
+      const church = station.churches.find(c => c.id === churchId) || station.churches[0];
+      if (!church) return;
+      const fallback = churchPhotoFallback(church);
+      const placePhotosUrl = buildGoogleMapsPlacePhotosUrl(church);
+      const originStation = STATION_MAP[state.startStationId];
+      const fullTransitMapUrl = buildGoogleMapsTransitUrl(originStation, church);
+      const satelliteUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${church.name}, ${church.address}`)}`;
+
+      document.getElementById("lightbox-badges").innerHTML = `
+        <span class="px-2 py-0.5 rounded text-xs font-bold ${getLineBadgeClass(station.primaryLine)}">${station.name} Metro (${church.distKm} km)</span>
+        <span class="px-2 py-0.5 rounded text-xs font-bold border ${getRiteBadgeClass(church.rite)}">${church.rite}</span>
+      `;
+      document.getElementById("lightbox-church-name").textContent = church.name;
+      document.getElementById("lightbox-church-address").textContent = `${church.address} • ${church.diocese}`;
+
+      const photoSectionHtml = `
+        <div class="rounded-2xl overflow-hidden border border-slate-200 bg-slate-950">
+          <div class="relative">
+            <img src="${churchPhotoAsset(church)}" alt="${church.name}"
+                 ${fallback ? `data-fallback="${fallback}"` : ""} data-church-photo
+                 class="w-full max-h-[420px] object-contain mx-auto" />
+            <div data-photo-placeholder class="hidden absolute inset-0 flex flex-col items-center justify-center text-center px-4 text-slate-400">
+              <span class="text-3xl leading-none">🏛️</span>
+              <span class="text-xs font-bold uppercase tracking-wide mt-2">No photo yet</span>
+              <span class="text-[11px] mt-1 text-slate-500">Save one as assets/churches/${church.id}.jpg</span>
+            </div>
+          </div>
+          <div class="px-4 py-2 bg-slate-900 text-slate-300 text-xs flex flex-wrap items-center justify-between gap-2">
+            <span data-photo-caption>${churchPhotoCaption(church)}</span>
+            <a href="${churchPhotoAsset(church)}" target="_blank" rel="noopener noreferrer" data-photo-fullsize class="text-amber-400 hover:underline font-semibold">Open Full-Size Image ↗</a>
+          </div>
+        </div>
+      `;
+
+      document.getElementById("lightbox-body-content").innerHTML = `
+        ${photoSectionHtml}
+        <div class="rounded-xl bg-amber-50 border border-amber-200 p-3 text-xs text-slate-800 space-y-1">
+          <div><strong>Mass Timings:</strong> ${church.massInfo}</div>
+          <div><strong>Notes:</strong> ${church.notes}</div>
+          <div><strong>Walking:</strong> ${church.walkMin} min on foot • <strong>Auto:</strong> ${church.autoMin} min, about Rs ${church.autoFare}</div>
+        </div>
+        <div class="flex flex-wrap items-center justify-between gap-2 pt-1">
+          <a href="${placePhotosUrl}" target="_blank" rel="noopener noreferrer"
+             class="flex-1 text-center py-2.5 px-4 rounded-xl text-xs sm:text-sm font-extrabold bg-blue-600 hover:bg-blue-700 text-white shadow transition">
+            📸 More Photos &amp; Street View on Google Maps ↗
+          </a>
+          <a href="${satelliteUrl}" target="_blank" rel="noopener noreferrer"
+             class="flex-1 text-center py-2.5 px-4 rounded-xl text-xs sm:text-sm font-extrabold bg-slate-700 hover:bg-slate-800 text-white shadow transition">
+            🛰️ Satellite View on Google Maps ↗
+          </a>
+          <a href="${fullTransitMapUrl}" target="_blank" rel="noopener noreferrer"
+             class="flex-1 text-center py-2.5 px-4 rounded-xl text-xs sm:text-sm font-extrabold bg-amber-500 hover:bg-amber-600 text-slate-950 shadow transition">
+            🚇 Transit Directions from ${originStation.name} ↗
+          </a>
+        </div>
+      `;
+
+      document.getElementById("photo-lightbox-modal").classList.remove("hidden");
+    }
+
+    function buildGoogleMapsTransitUrl(originStation, church) {
+      const origin = encodeURIComponent(`${originStation.name} Metro Station, Chennai, Tamil Nadu`);
+      const dest = encodeURIComponent(`${church.name}, ${church.address}`);
+      return `https://www.google.com/maps/dir/?api=1&origin=${origin}&destination=${dest}&travelmode=transit`;
+    }
+
+    function buildGoogleMapsLastMileUrl(station, church, mode) {
+      const origin = encodeURIComponent(`${station.name} Metro Station, Chennai, Tamil Nadu`);
+      const dest = encodeURIComponent(`${church.name}, ${church.address}`);
+      return `https://www.google.com/maps/dir/?api=1&origin=${origin}&destination=${dest}&travelmode=${mode}`;
+    }
+
+    function churchMatchesFilters(church) {
+      if (state.riteFilter !== "all" && church.rite !== state.riteFilter) return false;
+      if (state.walkFilter === "walkable" && church.distKm > 1.0) return false;
+      if (state.walkFilter === "very_close" && church.distKm > 0.6) return false;
+      return true;
+    }
+
+    function stationMatchesSearch(station, matchingChurches) {
+      const q = state.searchQuery.trim().toLowerCase();
+      if (!q) return true;
+      const stationHit =
+        station.name.toLowerCase().includes(q) ||
+        station.tamil.toLowerCase().includes(q) ||
+        station.area.toLowerCase().includes(q) ||
+        station.code.toLowerCase().includes(q);
+      if (stationHit) return true;
+      return matchingChurches.some(c =>
+        c.name.toLowerCase().includes(q) ||
+        c.address.toLowerCase().includes(q) ||
+        c.rite.toLowerCase().includes(q) ||
+        c.massInfo.toLowerCase().includes(q) ||
+        c.notes.toLowerCase().includes(q)
+      );
+    }
+
+    function populateStartStationDropdown() {
+      const sel = document.getElementById("start-station-select");
+      const groups = [
+        { label: "🟡 Yellow Line (Corridor 4: Poonamallee – Vadapalani)", line: "Yellow" },
+        { label: "🔵 Blue Line (Corridor 1: Wimco Nagar – Airport)", line: "Blue" },
+        { label: "🟢 Green Line (Corridor 2: Central – St. Thomas Mount)", line: "Green" }
+      ];
+
+      sel.innerHTML = groups.map(g => {
+        const seq = LINE_SEQUENCES[g.line];
+        const opts = seq.map(id => {
+          const st = STATION_MAP[id];
+          const statusTag = st.status !== "Operational" ? ` (${st.status})` : "";
+          const icTag = st.isInterchange ? " ★ Interchange" : "";
+          return `<option value="${st.id}">${st.name}${icTag}${statusTag}</option>`;
+        }).join("");
+        return `<optgroup label="${g.label}">${opts}</optgroup>`;
+      }).join("");
+
+      sel.value = state.startStationId;
+    }
+
+    function updateOriginHeader() {
+      const origin = STATION_MAP[state.startStationId];
+      document.getElementById("active-origin-label").textContent = `${origin.name} (${origin.lines.join("/")} Line)`;
+      const pill = document.getElementById("start-station-line-pill");
+      pill.textContent = `${origin.lines.join(" / ")} Line`;
+      pill.className = `px-2.5 py-1 rounded-full text-xs font-bold ${getLineBadgeClass(origin.primaryLine)}`;
+
+      document.querySelectorAll(".quick-start-btn").forEach(btn => {
+        const isSelected = btn.getAttribute("data-quick-start") === state.startStationId;
+        btn.classList.toggle("ring-2", isSelected);
+        btn.classList.toggle("ring-slate-900", isSelected);
+      });
+    }
+
+    function getFilteredAndSortedStations() {
+      const list = [];
+
+      STATIONS.forEach((station, originalIndex) => {
+        if (state.lineFilter !== "all" && !station.lines.includes(state.lineFilter)) return;
+        if (state.statusFilter !== "all" && station.status !== state.statusFilter) return;
+
+        const matchingChurches = station.churches.filter(c => {
+          if (!churchMatchesFilters(c)) return false;
+          const q = state.searchQuery.trim().toLowerCase();
+          if (!q) return true;
+          const stationHit =
+            station.name.toLowerCase().includes(q) ||
+            station.tamil.toLowerCase().includes(q) ||
+            station.area.toLowerCase().includes(q);
+          if (stationHit) return true;
+          return (
+            c.name.toLowerCase().includes(q) ||
+            c.address.toLowerCase().includes(q) ||
+            c.rite.toLowerCase().includes(q) ||
+            c.massInfo.toLowerCase().includes(q) ||
+            c.notes.toLowerCase().includes(q)
+          );
+        });
+
+        if (matchingChurches.length === 0) return;
+        if (!stationMatchesSearch(station, matchingChurches)) return;
+
+        const route = computeMetroRoute(state.startStationId, station.id);
+        const minWalk = Math.min(...matchingChurches.map(c => c.walkMin));
+        const minAuto = Math.min(...matchingChurches.map(c => c.autoMin));
+        const minDist = Math.min(...matchingChurches.map(c => c.distKm));
+        const bestLastMile = minDist <= 0.85 ? minWalk : minAuto;
+        const bestTotalMin = route.totalMetroMin + bestLastMile;
+
+        list.push({
+          station,
+          originalIndex,
+          route,
+          matchingChurches,
+          minDist,
+          minWalk,
+          bestTotalMin
+        });
+      });
+
+      list.sort((a, b) => {
+        if (state.sortMode === "total_fast") return a.bestTotalMin - b.bestTotalMin || a.minDist - b.minDist;
+        if (state.sortMode === "metro_hops") return a.route.totalMetroMin - b.route.totalMetroMin || a.minDist - b.minDist;
+        if (state.sortMode === "walk_dist") return a.minDist - b.minDist || a.route.totalMetroMin - b.route.totalMetroMin;
+        return a.originalIndex - b.originalIndex;
+      });
+
+      return list;
+    }
+
+    function renderStationsView() {
+      const items = getFilteredAndSortedStations();
+      const originStation = STATION_MAP[state.startStationId];
+      const container = document.getElementById("stations-grid");
+
+      const totalChurchesShown = items.reduce((acc, item) => acc + item.matchingChurches.length, 0);
+      document.getElementById("results-count-label").textContent =
+        `Showing ${items.length} station${items.length === 1 ? "" : "s"} • ${totalChurchesShown} Catholic church${totalChurchesShown === 1 ? "" : "es"}`;
+
+      if (items.length === 0) {
+        container.innerHTML = `
+          <div class="col-span-full bg-white rounded-2xl border border-slate-200 p-8 text-center">
+            <p class="text-base font-bold text-slate-800">No stations or Catholic churches match your current filters.</p>
+            <p class="text-xs text-slate-500 mt-1">Try resetting the Rite, Walking Distance, or Line filter above.</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = items.map(({ station, route, matchingChurches }) => {
+        const lineBadges = station.lines.map(l =>
+          `<span class="px-2 py-0.5 rounded text-[11px] font-bold ${getLineBadgeClass(l)}">${l} Line</span>`
+        ).join(" ");
+
+        const statusBadge = station.status === "Operational"
+          ? `<span class="px-2 py-0.5 rounded text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">Operational</span>`
+          : `<span class="px-2 py-0.5 rounded text-[11px] font-semibold bg-amber-100 text-amber-900 border border-amber-300">${station.status}</span>`;
+
+        const isOrigin = station.id === state.startStationId;
+
+        const churchesHtml = matchingChurches.map(church => {
+          const totalWithWalk = route.totalMetroMin + church.walkMin;
+          const totalWithAuto = route.totalMetroMin + church.autoMin;
+          const fullTransitMapUrl = buildGoogleMapsTransitUrl(originStation, church);
+          const lastMileMapUrl = buildGoogleMapsLastMileUrl(station, church, church.distKm <= 1.0 ? "walking" : "driving");
+
+          return `
+            <div class="rounded-xl border border-slate-200 bg-slate-50/70 hover:bg-white hover:border-amber-400 transition p-3.5 space-y-2.5">
+              <div class="flex items-start gap-3">
+                ${renderChurchThumbnail(station.id, church)}
+                <div class="flex-1 min-w-0">
+                  <div class="flex items-start justify-between gap-2">
+                    <div>
+                      <div class="flex flex-wrap items-center gap-1.5 mb-1">
+                        <span class="px-2 py-0.5 rounded text-[10px] font-bold border ${getRiteBadgeClass(church.rite)}">${church.rite}</span>
+                        <span class="text-[11px] font-medium text-slate-500">${church.diocese}</span>
+                      </div>
+                      <h4 class="text-sm sm:text-base font-bold text-slate-900 leading-snug">${church.name}</h4>
+                      <p class="text-xs text-slate-500 mt-0.5">${church.address}</p>
+                      ${church.alsoNear ? `<p class="text-[11px] text-amber-800 font-medium mt-0.5">↔ Also convenient from: ${church.alsoNear}</p>` : ''}
+                    </div>
+                    <span class="px-2 py-1 rounded-lg bg-slate-900 text-white text-xs font-bold shrink-0">
+                      ${church.distKm} km
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="grid grid-cols-3 gap-2 bg-white rounded-xl p-2.5 border border-slate-200/80 text-center">
+                <div class="border-r border-slate-100 pr-1">
+                  <div class="text-[10px] font-semibold uppercase text-slate-400">Metro Ride</div>
+                  <div class="text-sm font-extrabold text-slate-900">${route.totalMetroMin} min</div>
+                  <div class="text-[10px] text-slate-500">${route.stops} stops • ₹${route.fare}</div>
+                </div>
+                <div class="border-r border-slate-100 px-1">
+                  <div class="text-[10px] font-semibold uppercase text-emerald-700">Walk Leg</div>
+                  <div class="text-sm font-extrabold text-emerald-700">+${church.walkMin} min</div>
+                  <div class="text-[10px] font-semibold text-slate-600">Total: ${totalWithWalk}m</div>
+                </div>
+                <div class="pl-1">
+                  <div class="text-[10px] font-semibold uppercase text-amber-700">Auto / Taxi</div>
+                  <div class="text-sm font-extrabold text-amber-700">+${church.autoMin} min</div>
+                  <div class="text-[10px] font-semibold text-slate-600">Total: ${totalWithAuto}m (~₹${church.autoFare})</div>
+                </div>
+              </div>
+
+              <div class="text-xs text-slate-600 bg-amber-50/60 border border-amber-200/60 rounded-lg px-2.5 py-1.5">
+                <strong class="text-slate-800">Mass:</strong> ${church.massInfo}
+              </div>
+
+              <div class="flex flex-wrap items-center justify-between gap-2 pt-1">
+                <div class="flex flex-wrap gap-1.5">
+                  <a href="${fullTransitMapUrl}" target="_blank" rel="noopener noreferrer"
+                     class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-bold bg-amber-500 hover:bg-amber-600 text-slate-950 shadow-sm transition">
+                    <span>🗺️ Google Maps (${originStation.name} → Church)</span>
+                  </a>
+                  <a href="${lastMileMapUrl}" target="_blank" rel="noopener noreferrer"
+                     class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-white hover:bg-slate-100 text-slate-700 border border-slate-300 transition">
+                    <span>🚶 Station → Church</span>
+                  </a>
+                </div>
+                <button type="button" data-open-modal="${station.id}|${church.id}"
+                        class="open-modal-btn text-xs font-bold text-blue-700 hover:text-blue-900 underline px-1 py-1">
+                  Full Breakdown
+                </button>
+              </div>
+            </div>
+          `;
+        }).join("");
+
+        return `
+          <article class="bg-white rounded-2xl border ${isOrigin ? 'border-amber-500 ring-2 ring-amber-400/30' : 'border-slate-200'} shadow-sm overflow-hidden flex flex-col">
+            <div class="p-4 bg-slate-900 text-white flex items-start justify-between gap-3">
+              <div>
+                <div class="flex flex-wrap items-center gap-1.5 mb-1">
+                  ${lineBadges}
+                  ${statusBadge}
+                  <span class="text-[11px] font-mono text-slate-400">${station.code}</span>
+                  ${isOrigin ? '<span class="px-2 py-0.5 rounded bg-amber-400 text-slate-950 text-[10px] font-extrabold uppercase">Your Start Station</span>' : ''}
+                </div>
+                <h3 class="text-base sm:text-lg font-extrabold text-white">${station.name} <span class="text-xs font-normal text-slate-300 ml-1">${station.tamil}</span></h3>
+                <p class="text-xs text-slate-300 mt-0.5">${station.area} • <span class="text-amber-300 font-semibold">${route.summary}</span></p>
+              </div>
+
+              ${!isOrigin ? `
+                <button type="button" data-set-origin="${station.id}"
+                        class="set-origin-btn shrink-0 px-2.5 py-1.5 rounded-lg text-[11px] font-semibold bg-slate-800 hover:bg-amber-500 hover:text-slate-950 text-slate-200 border border-slate-700 transition">
+                  Set as Start
+                </button>
+              ` : ''}
+            </div>
+
+            <div class="p-4 space-y-3 flex-1">
+              ${churchesHtml}
+            </div>
+          </article>
+        `;
+      }).join("");
+    }
+
+    function renderChurchesDirectoryView() {
+      const originStation = STATION_MAP[state.startStationId];
+      const flatList = [];
+
+      STATIONS.forEach(station => {
+        if (state.lineFilter !== "all" && !station.lines.includes(state.lineFilter)) return;
+        if (state.statusFilter !== "all" && station.status !== state.statusFilter) return;
+
+        const route = computeMetroRoute(state.startStationId, station.id);
+        station.churches.forEach(church => {
+          if (!churchMatchesFilters(church)) return;
+          const q = state.searchQuery.trim().toLowerCase();
+          if (q) {
+            const hit =
+              church.name.toLowerCase().includes(q) ||
+              church.address.toLowerCase().includes(q) ||
+              church.rite.toLowerCase().includes(q) ||
+              church.massInfo.toLowerCase().includes(q) ||
+              station.name.toLowerCase().includes(q) ||
+              station.area.toLowerCase().includes(q);
+            if (!hit) return;
+          }
+
+          const totalWalk = route.totalMetroMin + church.walkMin;
+          const totalAuto = route.totalMetroMin + church.autoMin;
+          const bestTotal = church.distKm <= 0.85 ? totalWalk : totalAuto;
+
+          flatList.push({
+            station,
+            church,
+            route,
+            totalWalk,
+            totalAuto,
+            bestTotal
+          });
+        });
+      });
+
+      flatList.sort((a, b) => {
+        if (state.sortMode === "walk_dist") return a.church.distKm - b.church.distKm;
+        if (state.sortMode === "metro_hops") return a.route.totalMetroMin - b.route.totalMetroMin;
+        return a.bestTotal - b.bestTotal || a.church.distKm - b.church.distKm;
+      });
+
+      document.getElementById("results-count-label").textContent =
+        `Showing ${flatList.length} unique Catholic church${flatList.length === 1 ? "" : "es"} (each mapped to its single closest Metro station)`;
+
+      const container = document.getElementById("churches-grid");
+      if (flatList.length === 0) {
+        container.innerHTML = `
+          <div class="col-span-full bg-white rounded-2xl border border-slate-200 p-8 text-center">
+            <p class="text-base font-bold text-slate-800">No Catholic churches match your current filters.</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = flatList.map(({ station, church, route, totalWalk, totalAuto }) => {
+        const fullTransitMapUrl = buildGoogleMapsTransitUrl(originStation, church);
+        return `
+          <div class="bg-white rounded-2xl border border-slate-200 shadow-sm hover:border-amber-400 transition p-4 flex flex-col justify-between space-y-3">
+            <div class="space-y-2">
+              <div class="flex items-start gap-3">
+                ${renderChurchThumbnail(station.id, church)}
+                <div class="flex-1 min-w-0">
+                  <div class="flex flex-wrap items-center justify-between gap-1 mb-1">
+                    <span class="px-2 py-0.5 rounded text-[10px] font-bold border ${getRiteBadgeClass(church.rite)}">${church.rite}</span>
+                    <span class="px-2 py-0.5 rounded text-[11px] font-bold ${getLineBadgeClass(station.primaryLine)}">${station.name} (${church.distKm} km)</span>
+                  </div>
+                  <h4 class="text-sm sm:text-base font-bold text-slate-900 leading-snug">${church.name}</h4>
+                  <p class="text-xs text-slate-500 mt-0.5">${church.address}</p>
+                  ${church.alsoNear ? `<p class="text-[11px] text-amber-800 font-medium mt-0.5">↔ Also near: ${church.alsoNear}</p>` : ''}
+                </div>
+              </div>
+
+              <div class="grid grid-cols-3 gap-1.5 bg-slate-50 rounded-xl p-2 border border-slate-200 text-center">
+                <div>
+                  <div class="text-[10px] text-slate-500">Metro Leg</div>
+                  <div class="text-xs font-extrabold text-slate-900">${route.totalMetroMin}m (${route.stops} st)</div>
+                </div>
+                <div>
+                  <div class="text-[10px] text-emerald-700">With Walk</div>
+                  <div class="text-xs font-extrabold text-emerald-700">${totalWalk}m (+${church.walkMin}m)</div>
+                </div>
+                <div>
+                  <div class="text-[10px] text-amber-700">With Auto</div>
+                  <div class="text-xs font-extrabold text-amber-700">${totalAuto}m (+${church.autoMin}m)</div>
+                </div>
+              </div>
+
+              <p class="text-xs text-slate-600"><strong class="text-slate-800">Mass:</strong> ${church.massInfo}</p>
+              <p class="text-[11px] text-slate-500">${church.notes}</p>
+            </div>
+
+            <div class="flex items-center justify-between gap-2 pt-2 border-t border-slate-100">
+              <a href="${fullTransitMapUrl}" target="_blank" rel="noopener noreferrer"
+                 class="flex-1 text-center py-2 px-3 rounded-xl text-xs font-bold bg-amber-500 hover:bg-amber-600 text-slate-950 transition">
+                🗺️ Directions from ${originStation.name}
+              </a>
+              <button type="button" data-open-modal="${station.id}|${church.id}"
+                      class="open-modal-btn px-3 py-2 rounded-xl text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-800 transition">
+                Details
+              </button>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    const SVG_STATION_COORDS = {
+      // Blue Line: North (Wimco) -> Central -> Mount Rd -> Alandur -> Airport
+      "bl_wimco_depot": [760, 42],
+      "bl_wimco": [760, 68],
+      "bl_tiruvottriyur": [760, 94],
+      "bl_theradi": [760, 120],
+      "bl_kaladipet": [760, 146],
+      "bl_tollgate": [760, 172],
+      "bl_new_washermanpet": [760, 198],
+      "bl_tondiarpet": [760, 224],
+      "bl_theagaraya": [760, 250],
+      "bl_washermanpet": [745, 276],
+      "bl_mannadi": [735, 302],
+      "bl_high_court": [720, 328],
+      "bl_central": [680, 350],
+      "bl_govt_estate": [650, 382],
+      "bl_lic": [625, 410],
+      "bl_thousand_lights": [600, 438],
+      "bl_ag_dms": [575, 466],
+      "bl_teynampet": [550, 494],
+      "bl_nandanam": [525, 522],
+      "bl_saidapet": [500, 550],
+      "bl_little_mount": [475, 578],
+      "bl_guindy": [450, 606],
+      "bl_alandur": [420, 635],
+      "bl_nanganallur": [385, 668],
+      "bl_meenambakkam": [350, 700],
+      "bl_airport": [315, 732],
+
+      // Green Line: Central -> West along PH Rd / Anna Nagar -> South via Koyambedu/Vadapalani -> Alandur -> St. Thomas Mount
+      "gl_egmore": [630, 350],
+      "gl_nehru_park": [585, 350],
+      "gl_kilpauk": [540, 350],
+      "gl_pachaiyappas": [495, 350],
+      "gl_shenoy_nagar": [450, 350],
+      "gl_anna_nagar_east": [410, 325],
+      "gl_anna_nagar_tower": [370, 325],
+      "gl_thirumangalam": [330, 325],
+      "gl_koyambedu": [300, 360],
+      "gl_cmbt": [315, 398],
+      "gl_arumbakkam": [330, 436],
+      "gl_vadapalani": [350, 478],
+      "gl_ashok_nagar": [372, 530],
+      "gl_ekkattuthangal": [396, 582],
+      "gl_st_thomas_mount": [455, 675],
+
+      // Yellow Line: Poonamallee Bypass (West) -> Porur -> Valasaravakkam -> Vadapalani -> Kodambakkam Powerhouse
+      "yl_poonamallee_bypass": [35, 555],
+      "yl_poonamallee_bus_stand": [55, 540],
+      "yl_poonamallee_gh": [75, 525],
+      "yl_karayanchavadi": [95, 510],
+      "yl_kumananchavadi": [115, 495],
+      "yl_kattupakkam": [135, 485],
+      "yl_iyyapanthangal": [158, 478],
+      "yl_thelliyaragaram": [180, 478],
+      "yl_porur_bypass": [202, 478],
+      "yl_porur_junction": [224, 478],
+      "yl_alapakkam": [244, 478],
+      "yl_karambakkam": [262, 478],
+      "yl_valasaravakkam": [280, 478],
+      "yl_alwar_thirunagar": [298, 478],
+      "yl_virugambakkam_south": [315, 478],
+      "yl_saligramam": [332, 478],
+      "yl_kodambakkam_powerhouse": [395, 478]
+    };
+
+    function renderSvgMetroMapAndInspector() {
+      const svgContainer = document.getElementById("svg-metro-map-container");
+      const inspectorContainer = document.getElementById("map-station-inspector");
+      if (!svgContainer || !inspectorContainer) return;
+
+      const inspectedId = state.mapInspectedStationId || state.startStationId;
+      const inspectedStation = STATION_MAP[inspectedId] || STATION_MAP[state.startStationId];
+      const originStation = STATION_MAP[state.startStationId];
+      const routeToInspected = computeMetroRoute(state.startStationId, inspectedStation.id);
+
+      const makePolyline = (lineKey, color, dashed = false) => {
+        const pts = LINE_SEQUENCES[lineKey]
+          .map(id => SVG_STATION_COORDS[id])
+          .filter(Boolean)
+          .map(([x, y]) => `${x},${y}`)
+          .join(" ");
+        return `<polyline points="${pts}" fill="none" stroke="${color}" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" ${dashed ? 'stroke-dasharray="7,4"' : ''} opacity="0.9" />`;
+      };
+
+      const stationNodesSvg = STATIONS.map(st => {
+        const coords = SVG_STATION_COORDS[st.id];
+        if (!coords) return "";
+        const [x, y] = coords;
+        const isOrigin = st.id === state.startStationId;
+        const isInspected = st.id === inspectedStation.id;
+        const isInterchange = !!st.isInterchange;
+
+        let fill = "#3b82f6";
+        if (st.primaryLine === "Green") fill = "#10b981";
+        if (st.primaryLine === "Yellow") fill = "#f59e0b";
+        if (isInterchange) fill = "#ffffff";
+        if (isOrigin) fill = "#fde047";
+
+        const r = isOrigin || isInspected ? 8 : isInterchange ? 7 : 4.8;
+        const stroke = isOrigin ? "#f59e0b" : isInspected ? "#38bdf8" : isInterchange ? "#f59e0b" : "#0f172a";
+        const strokeW = isOrigin || isInspected || isInterchange ? 3 : 1.5;
+
+        const showMajorLabel =
+          isOrigin ||
+          isInspected ||
+          isInterchange ||
+          [
+            "bl_wimco_depot", "bl_high_court", "bl_thousand_lights", "bl_little_mount", "bl_guindy", "bl_airport",
+            "gl_egmore", "gl_kilpauk", "gl_anna_nagar_east", "gl_thirumangalam", "gl_cmbt", "gl_ashok_nagar", "gl_st_thomas_mount",
+            "yl_poonamallee_bypass", "yl_karayanchavadi", "yl_iyyapanthangal", "yl_porur_junction", "yl_valasaravakkam", "yl_kodambakkam_powerhouse"
+          ].includes(st.id);
+
+        let labelX = x + 10;
+        let labelY = y + 3;
+        let anchor = "start";
+        if (st.primaryLine === "Yellow" && st.id !== "yl_kodambakkam_powerhouse") {
+          labelX = x;
+          labelY = (LINE_SEQUENCES.Yellow.indexOf(st.id) % 2 === 0) ? y - 12 : y + 18;
+          anchor = "middle";
+        } else if (["gl_anna_nagar_east", "gl_anna_nagar_tower", "gl_thirumangalam"].includes(st.id)) {
+          labelX = x;
+          labelY = y - 11;
+          anchor = "middle";
+        } else if (["gl_koyambedu", "gl_cmbt", "gl_arumbakkam", "gl_ashok_nagar", "gl_ekkattuthangal"].includes(st.id)) {
+          labelX = x - 10;
+          anchor = "end";
+        }
+
+        return `
+          <g class="cursor-pointer group" data-svg-station="${st.id}">
+            ${(isOrigin || isInspected) ? `<circle cx="${x}" cy="${y}" r="13" fill="none" stroke="${isOrigin ? '#fde047' : '#38bdf8'}" stroke-width="2" opacity="0.75" />` : ''}
+            <circle cx="${x}" cy="${y}" r="${r}" fill="${fill}" stroke="${stroke}" stroke-width="${strokeW}" />
+            ${showMajorLabel ? `
+              <text x="${labelX}" y="${labelY}" text-anchor="${anchor}" fill="${isOrigin ? '#fde047' : isInspected ? '#7dd3fc' : '#e2e8f0'}" font-size="${isOrigin || isInspected || isInterchange ? '10.5' : '9'}" font-weight="${isOrigin || isInspected || isInterchange ? '800' : '600'}" class="select-none pointer-events-none">
+                ${st.name} (${st.churches.length}⛪)
+              </text>
+            ` : ''}
+            <title>${st.name} (${st.lines.join('/')} Line) — ${st.churches.map(c => c.name).join(', ')}</title>
+          </g>
+        `;
+      }).join("");
+
+      svgContainer.innerHTML = `
+        <svg viewBox="0 0 880 770" class="w-full h-auto">
+          <defs>
+            <linearGradient id="bayGrad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#0f172a" stop-opacity="0" />
+              <stop offset="100%" stop-color="#0369a1" stop-opacity="0.22" />
+            </linearGradient>
+          </defs>
+          <!-- Bay of Bengal Coastline Accent -->
+          <rect x="775" y="0" width="105" height="770" fill="url(#bayGrad)" />
+          <text x="828" y="390" fill="#38bdf8" opacity="0.35" font-size="12" font-weight="700" text-anchor="middle" transform="rotate(90, 828, 390)">BAY OF BENGAL COAST</text>
+
+          <!-- Corridor Lines -->
+          ${makePolyline("Blue", "#2563eb")}
+          ${makePolyline("Green", "#10b981")}
+          ${makePolyline("Yellow", "#f59e0b")}
+
+          <!-- Map Legend Overlay -->
+          <g transform="translate(18, 20)">
+            <rect x="0" y="0" width="295" height="92" rx="10" fill="#0f172a" stroke="#334155" stroke-width="1.2" opacity="0.95" />
+            <text x="12" y="22" fill="#f8fafc" font-size="11" font-weight="800">CHENNAI METRO RAIL &amp; CATHOLIC CHURCHES</text>
+            <text x="12" y="40" fill="#fde047" font-size="10" font-weight="700">● Start: ${originStation.name}</text>
+            <text x="12" y="57" fill="#7dd3fc" font-size="10" font-weight="700">● Selected: ${inspectedStation.name} (${routeToInspected.totalMetroMin}m Metro)</text>
+            <text x="12" y="75" fill="#94a3b8" font-size="9.5">Click any station node to inspect churches &amp; routes</text>
+          </g>
+
+          <!-- Station Nodes -->
+          ${stationNodesSvg}
+        </svg>
+      `;
+
+      const churchesCards = inspectedStation.churches.map(ch => {
+        const totalWalk = routeToInspected.totalMetroMin + ch.walkMin;
+        const totalAuto = routeToInspected.totalMetroMin + ch.autoMin;
+        const transitUrl = buildGoogleMapsTransitUrl(originStation, ch);
+        return `
+          <div class="bg-white rounded-xl border border-slate-200 p-3 space-y-2 shadow-sm">
+            <div class="flex items-start justify-between gap-2">
+              <div>
+                <span class="inline-block px-2 py-0.5 rounded text-[10px] font-bold border ${getRiteBadgeClass(ch.rite)} mb-1">${ch.rite}</span>
+                <h5 class="text-xs sm:text-sm font-bold text-slate-900">${ch.name}</h5>
+                <p class="text-[11px] text-slate-500">${ch.address}</p>
+              </div>
+              <span class="px-2 py-0.5 rounded bg-slate-900 text-white text-[11px] font-bold shrink-0">${ch.distKm} km</span>
+            </div>
+            <div class="grid grid-cols-2 gap-1.5 text-[11px] bg-slate-50 p-2 rounded-lg border border-slate-100">
+              <div><strong class="text-emerald-700">Walk:</strong> +${ch.walkMin}m (Total ${totalWalk}m)</div>
+              <div><strong class="text-amber-700">Auto:</strong> +${ch.autoMin}m (Total ${totalAuto}m)</div>
+            </div>
+            <div class="text-[11px] text-slate-600"><strong>Mass:</strong> ${ch.massInfo}</div>
+            <div class="flex items-center justify-between gap-2 pt-1">
+              <a href="${transitUrl}" target="_blank" rel="noopener noreferrer"
+                 class="px-2.5 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-[11px] transition">
+                🗺️ Google Maps Route
+              </a>
+              <button type="button" data-open-modal="${inspectedStation.id}|${ch.id}"
+                      class="open-modal-btn text-[11px] font-bold text-blue-700 hover:underline">
+                Full Details →
+              </button>
+            </div>
+          </div>
+        `;
+      }).join("") || `
+        <div class="bg-white rounded-xl border border-dashed border-slate-300 p-3 text-[11px] text-slate-600">
+          No church is listed at ${inspectedStation.name} yet. The neighbouring stations on the same line have churches.
+        </div>
+      `;
+
+      inspectorContainer.innerHTML = `
+        <div class="border-b border-slate-200 pb-3">
+          <div class="flex flex-wrap items-center gap-1.5 mb-1">
+            ${inspectedStation.lines.map(l => `<span class="px-2 py-0.5 rounded text-[10px] font-bold ${getLineBadgeClass(l)}">${l} Line</span>`).join("")}
+            <span class="text-[11px] font-mono text-slate-500">${inspectedStation.code}</span>
+            <span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-slate-200 text-slate-800">${inspectedStation.status}</span>
+          </div>
+          <h4 class="text-base font-extrabold text-slate-900">${inspectedStation.name} <span class="text-xs font-normal text-slate-500">${inspectedStation.tamil}</span></h4>
+          <p class="text-xs text-slate-600 mt-0.5">${inspectedStation.area}</p>
+          <div class="mt-2 p-2.5 rounded-xl bg-amber-50 border border-amber-200 text-xs text-amber-950">
+            <div><strong>From ${originStation.name}:</strong> ${routeToInspected.totalMetroMin} min Metro ride (${routeToInspected.stops} stops • ₹${routeToInspected.fare})</div>
+            <div class="text-[11px] text-slate-600 mt-0.5">${routeToInspected.summary}</div>
+          </div>
+          ${inspectedStation.id !== state.startStationId ? `
+            <button type="button" data-set-origin="${inspectedStation.id}"
+                    class="mt-2 w-full py-1.5 px-3 rounded-xl text-xs font-bold bg-slate-900 hover:bg-slate-800 text-white transition">
+              Set ${inspectedStation.name} as Starting Metro Station
+            </button>
+          ` : ''}
+        </div>
+        <div class="space-y-2.5">
+          <div class="text-xs font-bold uppercase tracking-wider text-slate-500">
+            Catholic Churches at ${inspectedStation.name} (${inspectedStation.churches.length})
+          </div>
+          ${churchesCards}
+        </div>
+      `;
+    }
+
+    function renderMetroMapView() {
+      renderSvgMetroMapAndInspector();
+      const container = document.getElementById("schematic-lines-container");
+      const lineConfigs = [
+        {
+          key: "Yellow",
+          title: "Yellow Line (Corridor 4: Poonamallee Bypass ↔ Kodambakkam Powerhouse)",
+          subtitle: "11 Elevated Stations Operational (Oct 2026) + 7 Elevated Stations Opening Mar 2027 • Interchange at Vadapalani",
+          borderClass: "border-amber-400",
+          bgClass: "bg-amber-50/50",
+          nodeClass: "border-amber-500 bg-amber-50 text-amber-950 hover:bg-amber-200"
+        },
+        {
+          key: "Blue",
+          title: "Blue Line (Corridor 1: Wimco Nagar Depot ↔ Chennai International Airport)",
+          subtitle: "26 Operational Stations • Interchanges at M.G.R. Central & Arignar Anna Alandur",
+          borderClass: "border-blue-400",
+          bgClass: "bg-blue-50/40",
+          nodeClass: "border-blue-500 bg-blue-50 text-blue-950 hover:bg-blue-200"
+        },
+        {
+          key: "Green",
+          title: "Green Line (Corridor 2: M.G.R. Central ↔ St. Thomas Mount)",
+          subtitle: "17 Operational Stations • Interchanges at M.G.R. Central, Vadapalani & Arignar Anna Alandur",
+          borderClass: "border-emerald-400",
+          bgClass: "bg-emerald-50/40",
+          nodeClass: "border-emerald-500 bg-emerald-50 text-emerald-950 hover:bg-emerald-200"
+        }
+      ];
+
+      container.innerHTML = lineConfigs.map(cfg => {
+        const seq = LINE_SEQUENCES[cfg.key];
+        const nodesHtml = seq.map((id, idx) => {
+          const st = STATION_MAP[id];
+          const route = computeMetroRoute(state.startStationId, st.id);
+          const isOrigin = st.id === state.startStationId;
+          const closestChurch = st.churches[0] || null;
+          return `
+            <button type="button" ${closestChurch ? `data-open-modal="${st.id}|${closestChurch.id}"` : `data-svg-station="${st.id}"`}
+                    class="open-modal-btn text-left p-2.5 rounded-xl border-2 transition flex flex-col justify-between min-w-[165px] ${isOrigin ? 'ring-2 ring-slate-900 bg-amber-300 border-slate-900' : cfg.nodeClass}">
+              <div class="flex items-center justify-between gap-1 w-full">
+                <span class="text-[10px] font-bold uppercase tracking-wider opacity-75">${idx + 1}. ${st.code}</span>
+                ${st.isInterchange ? '<span class="px-1.5 py-0.5 rounded bg-slate-900 text-white text-[9px] font-bold">INTERCHANGE</span>' : ''}
+              </div>
+              <div class="font-bold text-xs sm:text-sm mt-1 truncate w-full">${st.name}</div>
+              <div class="text-[11px] font-medium opacity-85 truncate w-full">⛪ ${closestChurch ? closestChurch.name : 'No church listed yet'}</div>
+              <div class="text-[10px] font-bold mt-1 pt-1 border-t border-black/10 flex items-center justify-between w-full">
+                <span>Metro: ${route.totalMetroMin}m</span>
+                <span>Walk: ${closestChurch ? `${closestChurch.walkMin}m` : '—'}</span>
+              </div>
+            </button>
+          `;
+        }).join("");
+
+        return `
+          <div class="rounded-2xl border-2 ${cfg.borderClass} ${cfg.bgClass} p-4">
+            <div class="mb-3">
+              <h4 class="text-sm sm:text-base font-extrabold text-slate-900">${cfg.title}</h4>
+              <p class="text-xs text-slate-600">${cfg.subtitle}</p>
+            </div>
+            <div class="flex gap-2.5 overflow-x-auto pb-2 custom-scrollbar">
+              ${nodesHtml}
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function openRouteModal(stationId, churchId) {
+      const station = STATION_MAP[stationId];
+      const church = station.churches.find(c => c.id === churchId) || station.churches[0];
+      if (!church) return;
+      const originStation = STATION_MAP[state.startStationId];
+      const route = computeMetroRoute(state.startStationId, station.id);
+
+      const totalWalk = route.totalMetroMin + church.walkMin;
+      const totalAuto = route.totalMetroMin + church.autoMin;
+      const fullTransitMapUrl = buildGoogleMapsTransitUrl(originStation, church);
+      const walkLastMileUrl = buildGoogleMapsLastMileUrl(station, church, "walking");
+      const driveLastMileUrl = buildGoogleMapsLastMileUrl(station, church, "driving");
+
+      document.getElementById("modal-badges").innerHTML = `
+        <span class="px-2 py-0.5 rounded text-xs font-bold ${getLineBadgeClass(station.primaryLine)}">${station.name} Metro</span>
+        <span class="px-2 py-0.5 rounded text-xs font-bold border ${getRiteBadgeClass(church.rite)}">${church.rite}</span>
+        <span class="px-2 py-0.5 rounded text-xs font-semibold bg-slate-100 text-slate-700">${station.status}</span>
+      `;
+      document.getElementById("modal-church-name").textContent = church.name;
+      document.getElementById("modal-church-address").textContent = `${church.address} • ${church.diocese}`;
+
+      const interchangeHtml = route.interchanges.length > 0
+        ? route.interchanges.map(ic =>
+            `<div class="text-xs text-amber-900 bg-amber-50 border border-amber-200 rounded-lg px-3 py-1.5 mt-1.5">
+              🔄 <strong>Interchange at ${ic.stationName}:</strong> Switch from ${ic.fromLine} Line to ${ic.toLine} Line (+5 min transfer buffer included)
+            </div>`
+          ).join("")
+        : `<div class="text-xs text-emerald-800 bg-emerald-50 border border-emerald-200 rounded-lg px-3 py-1.5 mt-1.5">
+            ✅ <strong>Direct Metro Ride:</strong> No line change required
+          </div>`;
+
+      document.getElementById("modal-body-content").innerHTML = `
+        <div class="rounded-xl border border-slate-200 bg-slate-50 p-4 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-extrabold uppercase tracking-wider text-slate-500">Leg 1 • Chennai Metro Rail</span>
+            <span class="text-sm font-extrabold text-slate-900">${route.totalMetroMin} mins • ₹${route.fare}</span>
+          </div>
+          <div class="text-sm font-bold text-slate-900">
+            ${originStation.name} → ${station.name} (${route.stops} station hops)
+          </div>
+          ${interchangeHtml}
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div class="rounded-xl border-2 border-emerald-200 bg-emerald-50/40 p-3.5 space-y-1">
+            <div class="text-xs font-bold text-emerald-800 uppercase">Option A: By Walk (${church.distKm} km)</div>
+            <div class="text-xl font-extrabold text-emerald-900">${totalWalk} mins total</div>
+            <div class="text-xs text-slate-600">${route.totalMetroMin}m Metro + ${church.walkMin}m Walk from ${station.name}</div>
+            <a href="${walkLastMileUrl}" target="_blank" rel="noopener noreferrer"
+               class="inline-block mt-2 text-xs font-bold text-emerald-800 underline">
+              Open Walking Map from ${station.name} →
+            </a>
+          </div>
+
+          <div class="rounded-xl border-2 border-amber-200 bg-amber-50/40 p-3.5 space-y-1">
+            <div class="text-xs font-bold text-amber-900 uppercase">Option B: By Auto / Taxi (${church.distKm} km)</div>
+            <div class="text-xl font-extrabold text-amber-900">${totalAuto} mins total</div>
+            <div class="text-xs text-slate-600">${route.totalMetroMin}m Metro + ${church.autoMin}m Auto/Cab (~₹${church.autoFare})</div>
+            <a href="${driveLastMileUrl}" target="_blank" rel="noopener noreferrer"
+               class="inline-block mt-2 text-xs font-bold text-amber-900 underline">
+              Open Driving/Auto Map from ${station.name} →
+            </a>
+          </div>
+        </div>
+
+        <div class="rounded-xl border border-slate-200 p-3.5 space-y-1.5 text-xs">
+          <div><strong class="text-slate-900">Mass Timings &amp; Languages:</strong> <span class="text-slate-700">${church.massInfo}</span></div>
+          <div><strong class="text-slate-900">Ecclesial Jurisdiction:</strong> <span class="text-slate-700">${church.diocese} (${church.rite} — ${getCommunionNote(church.rite)})</span></div>
+          <div><strong class="text-slate-900">Visitor Note:</strong> <span class="text-slate-700">${church.notes}</span></div>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-2.5 pt-2">
+          <a href="${fullTransitMapUrl}" target="_blank" rel="noopener noreferrer"
+             class="flex-1 text-center py-3 px-4 rounded-xl text-sm font-extrabold bg-amber-500 hover:bg-amber-600 text-slate-950 shadow transition">
+            🗺️ Open Full Route on Google Maps (${originStation.name} → Church)
+          </a>
+          <button type="button" data-set-origin-modal="${station.id}"
+                  class="set-origin-modal-btn py-3 px-4 rounded-xl text-xs font-bold bg-slate-900 hover:bg-slate-800 text-white transition">
+            Use ${station.name} as Start Station
+          </button>
+        </div>
+      `;
+
+      document.getElementById("route-modal").classList.remove("hidden");
+    }
+
+    function renderAll() {
+      updateOriginHeader();
+      if (state.activeTab === "stations") {
+        renderStationsView();
+      } else if (state.activeTab === "churches") {
+        renderChurchesDirectoryView();
+      } else {
+        renderMetroMapView();
+      }
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      populateStartStationDropdown();
+      renderAll();
+
+      // A church photo that will not load falls back to the curated Wikimedia
+      // picture, then to a placeholder. Error events do not bubble, so this
+      // has to run in the capture phase.
+      document.addEventListener("error", (e) => {
+        const img = e.target;
+        if (!img || img.tagName !== "IMG" || !img.hasAttribute("data-church-photo")) return;
+        const fallback = img.getAttribute("data-fallback");
+        if (fallback && img.getAttribute("src") !== fallback) {
+          img.setAttribute("src", fallback);
+          return;
+        }
+        img.classList.add("hidden");
+        const placeholder = img.parentElement?.querySelector("[data-photo-placeholder]");
+        if (placeholder) placeholder.classList.remove("hidden");
+        const fullSize = document.querySelector("[data-photo-fullsize]");
+        if (fullSize) fullSize.classList.add("hidden");
+        const badge = img.parentElement?.querySelector("[data-photo-badge]");
+        if (badge) {
+          badge.textContent = "🖼️ Photo Needed";
+          badge.className = "absolute top-1 left-1 px-1.5 py-0.5 rounded bg-slate-700/90 text-white text-[9px] font-bold";
+        }
+        const caption = document.querySelector("[data-photo-caption]");
+        if (caption) caption.textContent = "No photo yet — add assets/churches for this church id";
+      }, true);
+
+      document.getElementById("start-station-select").addEventListener("change", (e) => {
+        state.startStationId = e.target.value;
+        renderAll();
+      });
+
+      document.getElementById("sort-mode-select").addEventListener("change", (e) => {
+        state.sortMode = e.target.value;
+        renderAll();
+      });
+
+      document.getElementById("quick-start-Stations").addEventListener("click", (e) => {
+        const btn = e.target.closest("[data-quick-start]");
+        if (!btn) return;
+        state.startStationId = btn.getAttribute("data-quick-start");
+        document.getElementById("start-station-select").value = state.startStationId;
+        renderAll();
+      });
+
+      const tabs = [
+        { id: "tab-stations", view: "stations", elId: "view-stations" },
+        { id: "tab-churches", view: "churches", elId: "view-churches" },
+        { id: "tab-map", view: "map", elId: "view-map" }
+      ];
+      tabs.forEach(t => {
+        document.getElementById(t.id).addEventListener("click", () => {
+          state.activeTab = t.view;
+          tabs.forEach(other => {
+            const btn = document.getElementById(other.id);
+            const panel = document.getElementById(other.elId);
+            if (other.view === state.activeTab) {
+              btn.className = "px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all bg-amber-500 text-slate-950 shadow";
+              panel.classList.remove("hidden");
+            } else {
+              btn.className = "px-3 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-all text-slate-300 hover:text-white";
+              panel.classList.add("hidden");
+            }
+          });
+          renderAll();
+        });
+      });
+
+      document.querySelectorAll(".line-filter-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          state.lineFilter = btn.getAttribute("data-line-filter");
+          document.querySelectorAll(".line-filter-btn").forEach(b => {
+            const active = b.getAttribute("data-line-filter") === state.lineFilter;
+            b.classList.toggle("ring-2", active);
+            b.classList.toggle("ring-slate-900", active);
+          });
+          renderAll();
+        });
+      });
+
+      document.getElementById("rite-filter-select").addEventListener("change", (e) => {
+        state.riteFilter = e.target.value;
+        renderAll();
+      });
+      document.getElementById("walk-filter-select").addEventListener("change", (e) => {
+        state.walkFilter = e.target.value;
+        renderAll();
+      });
+      document.getElementById("status-filter-select").addEventListener("change", (e) => {
+        state.statusFilter = e.target.value;
+        renderAll();
+      });
+
+      document.getElementById("search-input").addEventListener("input", (e) => {
+        state.searchQuery = e.target.value;
+        renderAll();
+      });
+
+      document.getElementById("reset-filters-btn").addEventListener("click", () => {
+        state.lineFilter = "all";
+        state.riteFilter = "all";
+        state.walkFilter = "all";
+        state.statusFilter = "Operational";
+        state.searchQuery = "";
+        document.getElementById("rite-filter-select").value = "all";
+        document.getElementById("walk-filter-select").value = "all";
+        document.getElementById("status-filter-select").value = "Operational";
+        document.getElementById("search-input").value = "";
+        document.querySelectorAll(".line-filter-btn").forEach(b => {
+          b.classList.toggle("ring-2", b.getAttribute("data-line-filter") === "all");
+        });
+        renderAll();
+      });
+
+      document.body.addEventListener("click", (e) => {
+        const setOriginBtn = e.target.closest("[data-set-origin]");
+        if (setOriginBtn) {
+          state.startStationId = setOriginBtn.getAttribute("data-set-origin");
+          document.getElementById("start-station-select").value = state.startStationId;
+          renderAll();
+          return;
+        }
+
+        const setOriginModalBtn = e.target.closest("[data-set-origin-modal]");
+        if (setOriginModalBtn) {
+          state.startStationId = setOriginModalBtn.getAttribute("data-set-origin-modal");
+          document.getElementById("start-station-select").value = state.startStationId;
+          document.getElementById("route-modal").classList.add("hidden");
+          renderAll();
+          return;
+        }
+
+        const svgStationNode = e.target.closest("[data-svg-station]");
+        if (svgStationNode) {
+          state.mapInspectedStationId = svgStationNode.getAttribute("data-svg-station");
+          renderSvgMetroMapAndInspector();
+          return;
+        }
+
+        const openModalBtn = e.target.closest("[data-open-modal]");
+        if (openModalBtn) {
+          const [stId, chId] = openModalBtn.getAttribute("data-open-modal").split("|");
+          openRouteModal(stId, chId);
+          return;
+        }
+      });
+
+      document.body.addEventListener("click", (e) => {
+        const lbBtn = e.target.closest("[data-open-lightbox]");
+        if (lbBtn) {
+          const [stId, chId] = lbBtn.getAttribute("data-open-lightbox").split("|");
+          openPhotoLightbox(stId, chId);
+        }
+      });
+
+      document.getElementById("close-lightbox-btn").addEventListener("click", () => {
+        document.getElementById("photo-lightbox-modal").classList.add("hidden");
+      });
+      document.getElementById("photo-lightbox-modal").addEventListener("click", (e) => {
+        if (e.target.id === "photo-lightbox-modal") {
+          document.getElementById("photo-lightbox-modal").classList.add("hidden");
+        }
+      });
+
+      document.getElementById("close-modal-btn").addEventListener("click", () => {
+        document.getElementById("route-modal").classList.add("hidden");
+      });
+      document.getElementById("route-modal").addEventListener("click", (e) => {
+        if (e.target.id === "route-modal") {
+          document.getElementById("route-modal").classList.add("hidden");
+        }
+      });
+    });
+  </script>
+</body>
+</html>
